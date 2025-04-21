@@ -1,0 +1,57 @@
+import { TryCatch, ErrorHandler } from '../../utils/error.js'
+
+import User from '../../models/User.js'
+import { sendToken } from '../../utils/features.js'
+import bcrypt from 'bcryptjs'
+const { compare } = bcrypt
+
+const registerUser = TryCatch(async (req, res, next) => {
+  const { username, email, password } = req.body
+
+  if (!username || !email || !password)
+    return next(new ErrorHandler('Missing required fields', 400))
+
+  const existingUser = await User.findOne({ $or: [{ username }, { email }] })
+  if (existingUser) {
+    return next(new ErrorHandler('Username or Email is already used', 400))
+  }
+
+  const hashPassword = await bcrypt.hash(password, 10)
+  const newUser = new User({
+    username,
+    email,
+    role: 'user',
+    password: hashPassword,
+  })
+  await newUser.save()
+  sendToken(res, newUser, 201, 'User created')
+})
+
+const loginUser = TryCatch(async (req, res, next) => {
+  const { username, password } = req.body
+
+  const user = await User.findOne({ username }).select('+password')
+
+  if (!user) return next(new ErrorHandler('Username not found or Invalid', 404))
+
+  const isMatch = await compare(password, user.password)
+
+  if (!isMatch) return next(new ErrorHandler('Invalid password', 404))
+
+  sendToken(res, user, 200, `${username} logged in`)
+})
+
+const logout = TryCatch((req, res) => {
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: process.env.NODE_ENV === 'production',
+  })
+
+  res.status(200).json({
+    success: true,
+    message: 'Logged out successfully!',
+  })
+})
+
+export { registerUser, loginUser, logout }

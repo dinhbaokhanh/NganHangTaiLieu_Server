@@ -1,0 +1,16 @@
+const major = [
+    { value: 'it', label: 'Công nghệ thông tin' },
+    { value: 'electronics', label: 'Kỹ thuật điện tử viễn thông' },
+    { value: 'cs', label: 'Khoa học máy tính' },
+    { value: 'security', label: 'An toàn thông tin' },
+    { value: 'media', label: 'Truyền thông đa phương tiện' },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'business', label: 'Quản trị kinh doanh' },
+  ]
+
+const categories = [
+    { id: 'theory', label: 'Tài liệu', isDropdown: true },
+    { id: 'exam', label: 'Ngân hàng câu hỏi', isDropdown: true },
+    { id: 'saved', label: 'Tài liệu đã lưu', isDropdown: false },
+  ]
+
