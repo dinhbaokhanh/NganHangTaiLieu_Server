@@ -7,16 +7,31 @@ import {
   updateDocument,
   uploadDocument,
 } from '../controllers/documentController.js'
+import { adminAuth, isAuthenticated } from '../middleware/Authenticate.js'
 
 const router = express.Router()
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
-router.post('/upload', upload.single('file'), uploadDocument)
+router.post(
+  '/upload',
+  isAuthenticated,
+  adminAuth,
+  upload.single('file'),
+  uploadDocument
+)
 router.get('/', getAllDocuments)
-router.put('/update/:id', updateDocument)
-router.put('/replace/:id', upload.single('file'), replaceDocument)
-router.delete('/delete/:id', deleteDocument)
+router.put('/update/:id', isAuthenticated, adminAuth, updateDocument)
+
+router.put(
+  '/replace/:id',
+  isAuthenticated,
+  adminAuth,
+  upload.single('file'),
+  replaceDocument
+)
+
+router.delete('/delete/:id', isAuthenticated, adminAuth, deleteDocument)
 
 export default router
