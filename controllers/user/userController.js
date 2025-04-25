@@ -1,5 +1,5 @@
 import { TryCatch, ErrorHandler } from '../../utils/error.js'
-
+import jwt from 'jsonwebtoken'
 import User from '../../models/User.js'
 import { sendToken } from '../../utils/features.js'
 import bcrypt from 'bcryptjs'
