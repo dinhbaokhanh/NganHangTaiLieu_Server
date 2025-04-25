@@ -65,7 +65,6 @@ const forgotPassword = TryCatch(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: 'Password reset link sent to your email',
   })
 })
 
@@ -119,7 +118,6 @@ const resetPassword = TryCatch(async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: 'Password reset successful',
     })
   } catch (error) {
     return next(new ErrorHandler('Invalid or expired reset link', 400))
