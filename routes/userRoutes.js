@@ -19,6 +19,7 @@ import {
   registerValidator,
   validateHandler,
 } from '../utils/validator.js'
+import { singleAvatar } from '../middleware/multer.js'
 
 const router = express.Router()
 
@@ -26,7 +27,13 @@ router.post('/forgot-password', forgotPassword)
 router.get('/reset-password/:id/:token', verifyResetToken)
 router.post('/reset-password/:id/:token', resetPassword)
 
-router.post('/register', registerValidator(), validateHandler, registerUser)
+router.post(
+  '/register',
+  singleAvatar,
+  registerValidator(),
+  validateHandler,
+  registerUser
+)
 router.post('/login', loginValidator(), validateHandler, loginUser)
 
 router.get('/logout', isAuthenticated, logout)
