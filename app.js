@@ -13,7 +13,7 @@ const app = express()
 const PORT = process.env.PORT || 5000
 const MONGO_URI = process.env.MONGO_URI
 
-const adminSecretKey = process.env.ADMIN_SECRET_KEY || 'asdfghjklzxcvbnm'
+const adminSecretKey = process.env.ADMIN_SECRET_KEY
 
 app.use(
   cors({
