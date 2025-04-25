@@ -8,6 +8,16 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    avatar: {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+    },
     email: {
       type: String,
       required: true,
@@ -24,6 +34,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       enum: ['admin', 'user'],
       default: 'user',
+    },
+    status: {
+      type: String,
+      enum: ['Active', 'Banned'],
+      default: 'Active',
     },
   },
   {

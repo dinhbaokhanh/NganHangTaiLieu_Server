@@ -3,13 +3,17 @@ import jwt from 'jsonwebtoken'
 import User from '../../models/User.js'
 import { sendToken } from '../../utils/features.js'
 import bcrypt from 'bcryptjs'
+import { uploadFilesToCloudinary } from '../../helper/cloudinary.js'
 const { compare } = bcrypt
 
 const registerUser = TryCatch(async (req, res, next) => {
   const { username, email, password } = req.body
+  const file = req.file
 
-  if (!username || !email || !password)
+  if (!file) return next(new ErrorHandler('Please Upload Avatar'))
+  if (!username || !email || !password) {
     return next(new ErrorHandler('Missing required fields', 400))
+  }
 
   const existingUser = await User.findOne({ $or: [{ username }, { email }] })
   if (existingUser) {
@@ -17,12 +21,22 @@ const registerUser = TryCatch(async (req, res, next) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10)
+
+  const result = await uploadFilesToCloudinary([file])
+
+  const avatar = {
+    public_id: result[0].public_id,
+    url: result[0].url,
+  }
+
   const newUser = new User({
     username,
     email,
-    role: 'user',
     password: hashPassword,
+    avatar,
+    role: 'user',
   })
+
   await newUser.save()
   sendToken(res, newUser, 201, 'User created')
 })
@@ -42,6 +56,7 @@ const loginUser = TryCatch(async (req, res, next) => {
     const adminToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     })
+
     res.cookie('admin-token', adminToken, { httpOnly: true, secure: true })
   }
 
