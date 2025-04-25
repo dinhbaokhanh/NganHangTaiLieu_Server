@@ -38,6 +38,13 @@ const loginUser = TryCatch(async (req, res, next) => {
 
   if (!isMatch) return next(new ErrorHandler('Invalid password', 404))
 
+  if (user.role === 'admin') {
+    const adminToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    })
+    res.cookie('admin-token', adminToken, { httpOnly: true, secure: true })
+  }
+
   sendToken(res, user, 200, `${username} logged in`)
 })
 
