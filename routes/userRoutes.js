@@ -3,6 +3,9 @@ import {
   registerUser,
   loginUser,
   logout,
+  getAllUsers,
+  getUserById,
+  deleteUserById,
 } from '../controllers/user/userController.js'
 import {
   forgotPassword,
@@ -10,7 +13,7 @@ import {
   resetPassword,
   verifyResetToken,
 } from '../controllers/user/authController.js'
-import { isAuthenticated } from '../middleware/Authenticate.js'
+import { adminAuth, isAuthenticated } from '../middleware/Authenticate.js'
 import {
   loginValidator,
   registerValidator,
@@ -28,5 +31,10 @@ router.post('/login', loginValidator(), validateHandler, loginUser)
 
 router.get('/logout', isAuthenticated, logout)
 router.post('/refresh', isAuthenticated, refreshToken)
+
+router.get('/', isAuthenticated, adminAuth, getAllUsers)
+router.get('/:id', isAuthenticated, adminAuth, getUserById)
+
+router.delete('/:id', isAuthenticated, adminAuth, deleteUserById)
 
 export default router
