@@ -1,5 +1,5 @@
 import { TryCatch, ErrorHandler } from '../../utils/error.js'
-
+import jwt from 'jsonwebtoken'
 import User from '../../models/User.js'
 import { sendToken } from '../../utils/features.js'
 import bcrypt from 'bcryptjs'
@@ -37,6 +37,13 @@ const loginUser = TryCatch(async (req, res, next) => {
   const isMatch = await compare(password, user.password)
 
   if (!isMatch) return next(new ErrorHandler('Invalid password', 404))
+
+  if (user.role === 'admin') {
+    const adminToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    })
+    res.cookie('admin-token', adminToken, { httpOnly: true, secure: true })
+  }
 
   sendToken(res, user, 200, `${username} logged in`)
 })
