@@ -54,4 +54,48 @@ const logout = TryCatch((req, res) => {
   })
 })
 
-export { registerUser, loginUser, logout }
+const getAllUsers = TryCatch(async (req, res, next) => {
+  const users = await User.find().select('-password')
+
+  res.status(200).json({
+    success: true,
+    users,
+  })
+})
+
+const getUserById = TryCatch(async (req, res, next) => {
+  const { id } = req.params
+
+  const user = await User.findById(id).select('-password')
+
+  if (!user) return next(new ErrorHandler('User not found', 404))
+
+  res.status(200).json({
+    success: true,
+    user,
+  })
+})
+
+const deleteUserById = TryCatch(async (req, res, next) => {
+  const { id } = req.params
+
+  const user = await User.findById(id)
+
+  if (!user) return next(new ErrorHandler('User not found', 404))
+
+  await user.deleteOne()
+
+  res.status(200).json({
+    success: true,
+    message: `User ${user.username} has been deleted.`,
+  })
+})
+
+export {
+  registerUser,
+  loginUser,
+  logout,
+  getAllUsers,
+  getUserById,
+  deleteUserById,
+}
