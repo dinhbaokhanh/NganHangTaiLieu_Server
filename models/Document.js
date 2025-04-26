@@ -6,17 +6,13 @@ const documentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category: {
+    type: {
       type: String,
       required: true,
     },
     saved: {
       type: Boolean,
       default: false,
-    },
-    thumbnail: {
-      type: String,
-      required: true,
     },
     major: {
       type: String,
