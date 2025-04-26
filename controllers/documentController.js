@@ -8,32 +8,17 @@ const allowedMimeTypes = [
 ]
 
 const uploadDocument = TryCatch(async (req, res, next) => {
-  const {
-    title,
-    category,
-    major,
-    author,
-    publishedYear,
-    description,
-    thumbnail,
-  } = req.body
+  const { title, type, major, author, publishedYear, description } = req.body
   const file = req.file
 
-  if (!file) return next(new ErrorHandler('Please upload a document file', 400))
+  if (!file) return next(new ErrorHandler('Vui lòng tải lên một tài liệu', 400))
 
   if (!allowedMimeTypes.includes(file.mimetype)) {
-    return next(new ErrorHandler('Invalid file type', 400))
+    return next(new ErrorHandler('Loại tệp không hợp lệ', 400))
   }
 
-  if (
-    !title ||
-    !category ||
-    !major ||
-    !author ||
-    !publishedYear ||
-    !description
-  ) {
-    return next(new ErrorHandler('Missing required fields', 400))
+  if (!title || !type || !major || !author || !publishedYear || !description) {
+    return next(new ErrorHandler('Thiếu Trường Thuộc Tính', 400))
   }
 
   const fileUpload = bucket.file(`documents/${Date.now()}-${file.originalname}`)
@@ -47,9 +32,8 @@ const uploadDocument = TryCatch(async (req, res, next) => {
 
   const newDocument = new Document({
     title,
-    category,
+    type,
     saved: false,
-    thumbnail,
     major,
     author,
     publishedYear,
@@ -61,7 +45,7 @@ const uploadDocument = TryCatch(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    message: 'Document uploaded successfully',
+    message: 'Tải tài liệu lên thành công',
     document: newDocument,
   })
 })
@@ -78,21 +62,14 @@ const getAllDocuments = TryCatch(async (req, res, next) => {
 
 const updateDocument = TryCatch(async (req, res, next) => {
   const { id } = req.params
-  const {
-    title,
-    category,
-    major,
-    author,
-    publishedYear,
-    description,
-    thumbnail,
-  } = req.body
+  const { title, type, major, author, publishedYear, description, thumbnail } =
+    req.body
 
   const document = await Document.findById(id)
-  if (!document) return next(new ErrorHandler('Document not found', 404))
+  if (!document) return next(new ErrorHandler('Không tìm thấy tài liệu', 404))
 
   document.title = title || document.title
-  document.category = category || document.category
+  document.type = type || document.type
   document.major = major || document.major
   document.author = author || document.author
   document.publishedYear = publishedYear || document.publishedYear
@@ -103,7 +80,7 @@ const updateDocument = TryCatch(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: 'Document updated successfully',
+    message: 'Cập nhật tài liệu thành công',
     document,
   })
 })
@@ -113,14 +90,14 @@ const replaceDocument = TryCatch(async (req, res, next) => {
   const file = req.file
 
   if (!file)
-    return next(new ErrorHandler('Please upload a new document file', 400))
+    return next(new ErrorHandler('Vui lòng tải lên một tài liệu mới', 400))
 
   if (!allowedMimeTypes.includes(file.mimetype)) {
-    return next(new ErrorHandler('Invalid file type', 400))
+    return next(new ErrorHandler('Loại tệp không hợp lệ', 400))
   }
 
   const document = await Document.findById(id)
-  if (!document) return next(new ErrorHandler('Document not found', 404))
+  if (!document) return next(new ErrorHandler('Tài liệu không tồn tại', 404))
 
   try {
     const fileName = new URL(document.fileUrl).pathname.split('/').pop()
@@ -129,7 +106,7 @@ const replaceDocument = TryCatch(async (req, res, next) => {
     const [exists] = await fileToDelete.exists()
     if (exists) await fileToDelete.delete()
   } catch (err) {
-    console.error('Error deleting old file:', err.message)
+    console.error('Lỗi khi xóa tệp cũ:', err.message)
   }
 
   const fileUpload = bucket.file(`documents/${Date.now()}-${file.originalname}`)
@@ -139,13 +116,14 @@ const replaceDocument = TryCatch(async (req, res, next) => {
   })
 
   const fileUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`
+
   document.fileUrl = fileUrl
 
   await document.save()
 
   res.status(200).json({
     success: true,
-    message: 'Document replaced successfully',
+    message: 'Tài liệu đã được thay thế thành công',
     document,
   })
 })
@@ -154,7 +132,7 @@ const deleteDocument = TryCatch(async (req, res, next) => {
   const { id } = req.params
 
   const document = await Document.findById(id)
-  if (!document) return next(new ErrorHandler('Document not found', 404))
+  if (!document) return next(new ErrorHandler('Tài liệu không tồn tại', 404))
 
   try {
     const fileName = new URL(document.fileUrl).pathname.split('/').pop()
@@ -163,14 +141,14 @@ const deleteDocument = TryCatch(async (req, res, next) => {
     const [exists] = await fileToDelete.exists()
     if (exists) await fileToDelete.delete()
   } catch (err) {
-    console.error('Error deleting file:', err.message)
+    console.error('Lỗi khi xóa tệp:', err.message)
   }
 
   await document.remove()
 
   res.status(200).json({
     success: true,
-    message: 'Document deleted successfully',
+    message: 'Tài liệu đã được xóa thành công',
   })
 })
 

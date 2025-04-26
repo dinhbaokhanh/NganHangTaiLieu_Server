@@ -8,8 +8,7 @@ const verifyToken = (token, secretKey) => {
 const isAuthenticated = TryCatch((req, res, next) => {
   const authHeader = req.headers.authorization
 
-  if (!authHeader || !authHeader.startsWith('Bearer '))
-    return next(new ErrorHandler('Please login', 401))
+  if (!authHeader) return next(new ErrorHandler('Please login', 401))
 
   const token = authHeader.split(' ')[1]
   const payload = verifyToken(token, process.env.JWT_SECRET)
