@@ -21,6 +21,7 @@ router.post(
   upload.single('file'),
   uploadDocument
 )
+
 router.get('/', getAllDocuments)
 router.put('/update/:id', isAuthenticated, adminAuth, updateDocument)
 

@@ -44,23 +44,21 @@ const registerUser = TryCatch(async (req, res, next) => {
 const loginUser = TryCatch(async (req, res, next) => {
   const { username, password } = req.body
 
-  const user = await User.findOne({ username }).select('+password')
-
-  if (!user) return next(new ErrorHandler('Username not found or Invalid', 404))
-
-  const isMatch = await compare(password, user.password)
-
-  if (!isMatch) return next(new ErrorHandler('Invalid password', 404))
-
-  if (user.role === 'admin') {
-    const adminToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
-    })
-
-    res.cookie('admin-token', adminToken, { httpOnly: true, secure: true })
+  if (!username || !password) {
+    return next(new ErrorHandler('Username and password are required', 400))
   }
 
-  sendToken(res, user, 200, `${username} logged in`)
+  const user = await User.findOne({ username }).select('+password')
+  if (!user) {
+    return next(new ErrorHandler('Invalid username or password', 401))
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password)
+  if (!isMatch) {
+    return next(new ErrorHandler('Invalid username or password', 401))
+  }
+
+  sendToken(res, user, 200, `${user.username} logged in successfully`)
 })
 
 const logout = TryCatch((req, res) => {
