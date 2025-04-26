@@ -1,25 +1,24 @@
 import jwt from 'jsonwebtoken'
 
-const refreshTokenCookieOptions = {
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-  sameSite: 'none',
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-}
+const createAccessToken = (user) => {
+  console.log(user)
 
-const createAccessToken = (userId) => {
-  return jwt.sign({ _id: userId }, process.env.JWT_SECRET, { expiresIn: '15m' })
-}
-
-const createRefreshToken = (userId) => {
-  return jwt.sign({ _id: userId }, process.env.REFRESH_SECRET, {
-    expiresIn: '7d',
+  return jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, {
+    expiresIn: '15m',
   })
 }
 
+const createRefreshToken = (user) => {
+  return jwt.sign(
+    { _id: user._id, role: user.role },
+    process.env.REFRESH_SECRET,
+    { expiresIn: '7d' }
+  )
+}
+
 const sendToken = (res, user, code, message) => {
-  const accessToken = createAccessToken(user._id)
-  const refreshToken = createRefreshToken(user._id)
+  const accessToken = createAccessToken(user)
+  const refreshToken = createRefreshToken(user)
 
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,

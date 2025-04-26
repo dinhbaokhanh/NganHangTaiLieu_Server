@@ -1,7 +1,9 @@
 import { TryCatch, ErrorHandler } from '../utils/error.js'
-
 import jwt from 'jsonwebtoken'
-import { adminSecretKey } from '../app.js'
+
+const verifyToken = (token, secretKey) => {
+  return jwt.verify(token, secretKey)
+}
 
 const isAuthenticated = TryCatch((req, res, next) => {
   const authHeader = req.headers.authorization
@@ -10,25 +12,31 @@ const isAuthenticated = TryCatch((req, res, next) => {
     return next(new ErrorHandler('Please login', 401))
 
   const token = authHeader.split(' ')[1]
-  const decoded = jwt.verify(token, process.env.JWT_SECRET)
+  const payload = verifyToken(token, process.env.JWT_SECRET)
 
-  req.user = decoded._id
+  req.user = payload
   next()
 })
 
-const adminAuth = TryCatch((req, res, next) => {
-  const token = req.cookies['admin-token']
+const adminAuth = TryCatch(async (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1]
 
   if (!token) {
     return next(new ErrorHandler('Please login as ADMIN', 401))
   }
 
-  const secretKey = jwt.verify(token, process.env.JWT_SECRET)
-  const isMatch = secretKey === adminSecretKey
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    if (decoded.role !== 'admin') {
+      return next(new ErrorHandler('Access denied', 403))
+    }
 
-  if (!isMatch) return next(new ErrorHandler('Invalid Admin Key', 401))
-
-  next()
+    req.user = decoded
+    next()
+  } catch (error) {
+    console.error('Token verification failed:', error)
+    return next(new ErrorHandler('Invalid or expired token', 401))
+  }
 })
 
 export { isAuthenticated, adminAuth }
