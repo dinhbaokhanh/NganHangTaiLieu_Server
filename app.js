@@ -8,6 +8,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import userRoutes from './routes/userRoutes.js'
 import documentRoutes from './routes/documentRoutes.js'
 import subjectRoutes from './routes/subjectRoutes.js'
+import { errorMiddleware } from './middleware/error.js'
 
 dotenv.config()
 
@@ -38,6 +39,8 @@ app.use(cookieParser())
 app.use('/api/user', userRoutes)
 app.use('/api/document', documentRoutes)
 app.use('/api/subject', subjectRoutes)
+
+app.use(errorMiddleware)
 
 mongoose
   .connect(MONGO_URI)
