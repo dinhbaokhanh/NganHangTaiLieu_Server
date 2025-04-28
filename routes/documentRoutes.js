@@ -6,7 +6,7 @@ import {
   replaceDocument,
   updateDocument,
   uploadDocument,
-} from '../controllers/documentController.js'
+} from '../controllers/document/documentController.js'
 import { adminAuth, isAuthenticated } from '../middleware/Authenticate.js'
 
 const router = express.Router()

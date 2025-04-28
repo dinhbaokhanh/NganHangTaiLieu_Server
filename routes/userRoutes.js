@@ -6,6 +6,7 @@ import {
   getAllUsers,
   getUserById,
   deleteUserById,
+  updateUserStatus,
 } from '../controllers/user/userController.js'
 import {
   forgotPassword,
@@ -41,6 +42,7 @@ router.post('/refresh', refreshToken)
 
 router.get('/', isAuthenticated, adminAuth, getAllUsers)
 router.get('/:id', isAuthenticated, adminAuth, getUserById)
+router.patch('/users/:id/status', updateUserStatus)
 
 router.delete('/:id', isAuthenticated, adminAuth, deleteUserById)
 

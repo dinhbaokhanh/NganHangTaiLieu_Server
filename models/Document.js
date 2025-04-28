@@ -14,10 +14,6 @@ const documentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    major: {
-      type: String,
-      required: true,
-    },
     author: {
       type: String,
       required: true,
@@ -32,6 +28,11 @@ const documentSchema = new mongoose.Schema(
     },
     fileUrl: {
       type: String,
+      required: true,
+    },
+    subject: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Subject',
       required: true,
     },
   },

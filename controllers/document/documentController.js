@@ -1,6 +1,6 @@
-import Document from '../models/Document.js'
-import { ErrorHandler, TryCatch } from '../utils/error.js'
-import { bucket } from '../helper/firebase.js'
+import Document from '../../models/Document.js'
+import { ErrorHandler, TryCatch } from '../../utils/error.js'
+import { bucket } from '../../helper/firebase.js'
 
 const allowedMimeTypes = [
   'application/pdf',

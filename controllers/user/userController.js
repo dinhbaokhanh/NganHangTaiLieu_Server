@@ -96,6 +96,43 @@ const getUserById = TryCatch(async (req, res, next) => {
   })
 })
 
+const updateUserStatus = TryCatch(async (req, res, next) => {
+  const { id } = req.params
+  const { status } = req.body
+
+  // Validate status input
+  if (!status || !['Active', 'Banned'].includes(status)) {
+    return next(
+      new ErrorHandler(
+        'Invalid status value. Must be "Active" or "Banned"',
+        400
+      )
+    )
+  }
+
+  const user = await User.findById(id)
+
+  if (!user) {
+    return next(new ErrorHandler('User not found', 404))
+  }
+
+  user.status = status
+  await user.save()
+
+  res.status(200).json({
+    success: true,
+    message: `User status updated to ${status} successfully`,
+    user: {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+      avatar: user.avatar,
+    },
+  })
+})
+
 const deleteUserById = TryCatch(async (req, res, next) => {
   const { id } = req.params
 
@@ -118,4 +155,5 @@ export {
   getAllUsers,
   getUserById,
   deleteUserById,
+  updateUserStatus,
 }
