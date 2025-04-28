@@ -74,6 +74,57 @@ const logout = TryCatch((req, res) => {
   })
 })
 
+const addUser = TryCatch(async (req, res, next) => {
+  const { username, email, password, role } = req.body;
+  const file = req.file;
+
+  // Kiểm tra thông tin bắt buộc
+  if (!file) return next(new ErrorHandler('Please Upload Avatar', 400));
+  if (!username || !email || !password) {
+    return next(new ErrorHandler('Missing required fields', 400));
+  }
+
+  // Kiểm tra xem username hoặc email đã tồn tại chưa
+  const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+  if (existingUser) {
+    return next(new ErrorHandler('Username or Email is already used', 400));
+  }
+
+  // Mã hóa mật khẩu
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  // Upload avatar lên Cloudinary
+  const result = await uploadFilesToCloudinary([file]);
+  const avatar = {
+    public_id: result[0].public_id,
+    url: result[0].url,
+  };
+
+  // Tạo user mới
+  const newUser = new User({
+    username,
+    email,
+    password: hashPassword,
+    avatar,
+    role: role || 'user', // Nếu không có role, mặc định là 'user'
+  });
+
+  await newUser.save();
+
+  // Trả về phản hồi
+  res.status(201).json({
+    success: true,
+    message: 'User added successfully',
+    user: {
+      id: newUser._id,
+      username: newUser.username,
+      email: newUser.email,
+      avatar: newUser.avatar,
+      role: newUser.role,
+    },
+  });
+});
+
 const getAllUsers = TryCatch(async (req, res, next) => {
   const users = await User.find().select('-password')
 
@@ -152,8 +203,9 @@ export {
   registerUser,
   loginUser,
   logout,
+  addUser,
   getAllUsers,
   getUserById,
   deleteUserById,
-  updateUserStatus,
+  updateUserStatus, // Export hàm updateUserStatus
 }
