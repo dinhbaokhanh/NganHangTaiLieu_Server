@@ -10,10 +10,6 @@ const documentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    saved: {
-      type: Boolean,
-      default: false,
-    },
     author: {
       type: String,
       required: true,

@@ -23,7 +23,7 @@ router.post(
 )
 
 router.get('/', getAllDocuments)
-router.put('/update/:id', isAuthenticated, adminAuth, updateDocument)
+router.put('/:id', isAuthenticated, adminAuth, updateDocument)
 
 router.put(
   '/replace/:id',
@@ -33,6 +33,6 @@ router.put(
   replaceDocument
 )
 
-router.delete('/delete/:id', isAuthenticated, adminAuth, deleteDocument)
+router.delete('/:id', isAuthenticated, adminAuth, deleteDocument)
 
 export default router
