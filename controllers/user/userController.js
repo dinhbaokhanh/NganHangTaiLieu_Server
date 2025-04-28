@@ -147,6 +147,43 @@ const getUserById = TryCatch(async (req, res, next) => {
   })
 })
 
+const updateUserStatus = TryCatch(async (req, res, next) => {
+  const { id } = req.params
+  const { status } = req.body
+
+  // Validate status input
+  if (!status || !['Active', 'Banned'].includes(status)) {
+    return next(
+      new ErrorHandler(
+        'Invalid status value. Must be "Active" or "Banned"',
+        400
+      )
+    )
+  }
+
+  const user = await User.findById(id)
+
+  if (!user) {
+    return next(new ErrorHandler('User not found', 404))
+  }
+
+  user.status = status
+  await user.save()
+
+  res.status(200).json({
+    success: true,
+    message: `User status updated to ${status} successfully`,
+    user: {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+      avatar: user.avatar,
+    },
+  })
+})
+
 const deleteUserById = TryCatch(async (req, res, next) => {
   const { id } = req.params
 
@@ -161,37 +198,6 @@ const deleteUserById = TryCatch(async (req, res, next) => {
     message: `User ${user.username} has been deleted.`,
   })
 })
-
-const updateUserStatus = TryCatch(async (req, res, next) => {
-  const { id } = req.params; // Lấy ID người dùng từ URL
-  const { status } = req.body; // Lấy trạng thái mới từ body request
-
-  // Kiểm tra giá trị status hợp lệ
-  if (!['Active', 'Banned'].includes(status)) {
-    return next(new ErrorHandler('Invalid status value', 400));
-  }
-
-  // Tìm người dùng theo ID
-  const user = await User.findById(id);
-  if (!user) return next(new ErrorHandler('User not found', 404));
-
-  // Cập nhật trạng thái người dùng
-  user.status = status;
-
-  // Lưu thông tin người dùng sau khi cập nhật
-  await user.save();
-
-  res.status(200).json({
-    success: true,
-    message: 'User status updated successfully',
-    user: {
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      status: user.status,
-    },
-  });
-});
 
 export {
   registerUser,
