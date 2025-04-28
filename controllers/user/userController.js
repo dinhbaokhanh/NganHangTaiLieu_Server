@@ -10,14 +10,14 @@ const registerUser = TryCatch(async (req, res, next) => {
   const { username, email, password } = req.body
   const file = req.file
 
-  if (!file) return next(new ErrorHandler('Please Upload Avatar'))
+  if (!file) return next(new ErrorHandler('Hãy đăng ảnh Avatar'))
   if (!username || !email || !password) {
-    return next(new ErrorHandler('Missing required fields', 400))
+    return next(new ErrorHandler('Thiếu thông tin cần điền', 400))
   }
 
   const existingUser = await User.findOne({ $or: [{ username }, { email }] })
   if (existingUser) {
-    return next(new ErrorHandler('Username or Email is already used', 400))
+    return next(new ErrorHandler('Username hoặc Email đã được dùng', 400))
   }
 
   const hashPassword = await bcrypt.hash(password, 10)
@@ -38,14 +38,14 @@ const registerUser = TryCatch(async (req, res, next) => {
   })
 
   await newUser.save()
-  sendToken(res, newUser, 201, 'User created')
+  sendToken(res, newUser, 201, 'Tạo tài khoản thành công')
 })
 
 const loginUser = TryCatch(async (req, res, next) => {
   const { username, password } = req.body
 
   if (!username || !password) {
-    return next(new ErrorHandler('Username and password are required', 400))
+    return next(new ErrorHandler('Vui lòng điền đủ Username và Password', 400))
   }
 
   const user = await User.findOne({ username }).select('+password')
@@ -55,10 +55,10 @@ const loginUser = TryCatch(async (req, res, next) => {
 
   const isMatch = await bcrypt.compare(password, user.password)
   if (!isMatch) {
-    return next(new ErrorHandler('Invalid username or password', 401))
+    return next(new ErrorHandler('Sai Username hoặc Password', 401))
   }
 
-  sendToken(res, user, 200, `${user.username} logged in successfully`)
+  sendToken(res, user, 200, `${user.username} đăng nhập thành công`)
 })
 
 const logout = TryCatch((req, res) => {

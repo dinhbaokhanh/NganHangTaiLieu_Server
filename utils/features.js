@@ -23,7 +23,7 @@ const sendToken = (res, user, code, message) => {
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'none',
+    sameSite: 'Lax',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   })
 

@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer'
 
 const refreshToken = TryCatch((req, res, next) => {
   const token = req.cookies.refreshToken
-  if (!token) return next(new ErrorHandler('Please login again', 401))
+  if (!token) return next(new ErrorHandler('Vui lòng đăng nhập lại', 401))
 
   const decoded = jwt.verify(token, process.env.REFRESH_SECRET)
 
@@ -24,7 +24,7 @@ const forgotPassword = TryCatch(async (req, res, next) => {
 
   const user = await User.findOne({ email })
   if (!user) {
-    return next(new ErrorHandler('User with this email does not exist', 404))
+    return next(new ErrorHandler('Người dùng với email này chưa tồn tại', 404))
   }
 
   const secret = process.env.JWT_SECRET + user.password
@@ -95,11 +95,11 @@ const resetPassword = TryCatch(async (req, res, next) => {
   const { password, confirmPassword } = req.body
 
   if (!password || password.length < 8) {
-    return next(new ErrorHandler('Password must be at least 8 characters', 400))
+    return next(new ErrorHandler('Mật khẩu phải có ít nhất 8 ký tự', 400))
   }
 
   if (password !== confirmPassword) {
-    return next(new ErrorHandler('Passwords do not match', 400))
+    return next(new ErrorHandler('Mật khẩu xác nhận không đúng', 400))
   }
 
   const user = await User.findById(id)
