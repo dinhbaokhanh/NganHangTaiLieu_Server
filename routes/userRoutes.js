@@ -55,12 +55,4 @@ router.post(
   addUser // Controller xử lý logic thêm user
 )
 
-// Route cập nhật trạng thái người dùng
-router.put(
-  '/:id/status',
-  isAuthenticated, // Kiểm tra người dùng đã đăng nhập
-  adminAuth, // Kiểm tra quyền admin
-  updateUserStatus // Controller xử lý logic cập nhật trạng thái
-)
-
 export default router
