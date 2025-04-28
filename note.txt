@@ -13,4 +13,3 @@ const categories = [
     { id: 'exam', label: 'Ngân hàng câu hỏi', isDropdown: true },
     { id: 'saved', label: 'Tài liệu đã lưu', isDropdown: false },
   ]
-
