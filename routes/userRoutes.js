@@ -6,6 +6,8 @@ import {
   getAllUsers,
   getUserById,
   deleteUserById,
+  addUser, // Import hàm addUser
+  updateUserStatus, // Import hàm updateUserStatus
 } from '../controllers/user/userController.js'
 import {
   forgotPassword,
@@ -43,5 +45,21 @@ router.get('/', isAuthenticated, adminAuth, getAllUsers)
 router.get('/:id', isAuthenticated, adminAuth, getUserById)
 
 router.delete('/:id', isAuthenticated, adminAuth, deleteUserById)
+
+router.post(
+  '/add',
+  isAuthenticated, // Kiểm tra người dùng đã đăng nhập
+  adminAuth, // Kiểm tra quyền admin
+  singleAvatar, // Middleware xử lý upload file avatar
+  addUser // Controller xử lý logic thêm user
+)
+
+// Route cập nhật trạng thái người dùng
+router.put(
+  '/:id/status',
+  isAuthenticated, // Kiểm tra người dùng đã đăng nhập
+  adminAuth, // Kiểm tra quyền admin
+  updateUserStatus // Controller xử lý logic cập nhật trạng thái
+)
 
 export default router
