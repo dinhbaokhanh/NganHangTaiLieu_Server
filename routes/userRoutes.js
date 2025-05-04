@@ -6,6 +6,7 @@ import {
   getAllUsers,
   getUserById,
   deleteUserById,
+  addUser,
   updateUserStatus,
 } from '../controllers/user/userController.js'
 import {
@@ -40,10 +41,20 @@ router.post('/login', loginValidator(), validateHandler, loginUser)
 router.get('/logout', isAuthenticated, logout)
 router.post('/refresh', refreshToken)
 
+router.get('/profile/:id', isAuthenticated, getUserById);
+
 router.get('/', isAuthenticated, adminAuth, getAllUsers)
 router.get('/:id', isAuthenticated, adminAuth, getUserById)
 router.patch('/users/:id/status', updateUserStatus)
 
 router.delete('/:id', isAuthenticated, adminAuth, deleteUserById)
+
+router.post(
+  '/add',
+  isAuthenticated, // Kiểm tra người dùng đã đăng nhập
+  adminAuth, // Kiểm tra quyền admin
+  singleAvatar, // Middleware xử lý upload file avatar
+  addUser // Controller xử lý logic thêm user
+)
 
 export default router

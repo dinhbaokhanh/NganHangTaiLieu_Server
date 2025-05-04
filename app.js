@@ -27,7 +27,7 @@ const adminSecretKey = process.env.ADMIN_SECRET_KEY
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   })
