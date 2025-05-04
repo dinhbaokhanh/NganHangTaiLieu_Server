@@ -106,7 +106,7 @@ const addUser = TryCatch(async (req, res, next) => {
     email,
     password: hashPassword,
     avatar,
-    role: role || 'user', // Nếu không có role, mặc định là 'user'
+    role: role || 'user',
   });
 
   await newUser.save();
@@ -207,5 +207,5 @@ export {
   getAllUsers,
   getUserById,
   deleteUserById,
-  updateUserStatus, // Export hàm updateUserStatus
+  updateUserStatus,
 }

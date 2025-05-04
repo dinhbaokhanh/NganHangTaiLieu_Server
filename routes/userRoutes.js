@@ -6,8 +6,8 @@ import {
   getAllUsers,
   getUserById,
   deleteUserById,
-  addUser, // Import hàm addUser
-  updateUserStatus, // Import hàm updateUserStatus
+  addUser,
+  updateUserStatus,
 } from '../controllers/user/userController.js'
 import {
   forgotPassword,
@@ -40,6 +40,8 @@ router.post('/login', loginValidator(), validateHandler, loginUser)
 
 router.get('/logout', isAuthenticated, logout)
 router.post('/refresh', refreshToken)
+
+router.get('/profile/:id', isAuthenticated, getUserById);
 
 router.get('/', isAuthenticated, adminAuth, getAllUsers)
 router.get('/:id', isAuthenticated, adminAuth, getUserById)
