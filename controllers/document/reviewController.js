@@ -3,7 +3,7 @@ import ErrorHandler from '../utils/ErrorHandler.js'
 import TryCatch from '../middlewares/TryCatch.js'
 
 const addReview = TryCatch(async (req, res, next) => {
-  const { userId, documentId, rating, comment } = req.body
+  const { userId, documentId, comment } = req.body
 
   const existingReview = await Review.findOne({ userId, documentId })
   if (existingReview) {
@@ -15,7 +15,6 @@ const addReview = TryCatch(async (req, res, next) => {
   const review = await Review.create({
     userId,
     documentId,
-    rating,
     comment,
   })
 
@@ -38,14 +37,13 @@ const getReviewsByDocument = TryCatch(async (req, res, next) => {
 })
 
 const updateReview = TryCatch(async (req, res, next) => {
-  const { userId, documentId, rating, comment } = req.body
+  const { userId, documentId, comment } = req.body
 
   const review = await Review.findOne({ userId, documentId })
   if (!review) {
     return next(new ErrorHandler('Review not found', 404))
   }
 
-  review.rating = rating || review.rating
   review.comment = comment || review.comment
 
   await review.save()

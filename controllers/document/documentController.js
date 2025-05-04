@@ -1,6 +1,6 @@
 // controllers/documentController.js
 
-import Document from '../../models/Document.js'
+import Document from '../../models/document/Document.js'
 import { ErrorHandler, TryCatch } from '../../utils/error.js'
 import { bucket } from '../../helper/firebase.js'
 
