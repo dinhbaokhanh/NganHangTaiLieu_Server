@@ -13,8 +13,30 @@ const reviewSchema = new mongoose.Schema({
   },
   comment: {
     type: String,
-    required: false,
+    required: true,
   },
+  replies: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
+      reply: {
+        type: String,
+        required: true,
+      },
+      repliedToUserId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false,
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
