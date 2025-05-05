@@ -4,7 +4,6 @@ import User from '../../models/User.js'
 import { sendToken } from '../../utils/features.js'
 import bcrypt from 'bcryptjs'
 import { uploadFilesToCloudinary } from '../../helper/cloudinary.js'
-const { compare } = bcrypt
 
 const registerUser = TryCatch(async (req, res, next) => {
   const { username, email, password } = req.body
@@ -75,30 +74,30 @@ const logout = TryCatch((req, res) => {
 })
 
 const addUser = TryCatch(async (req, res, next) => {
-  const { username, email, password, role } = req.body;
-  const file = req.file;
+  const { username, email, password, role } = req.body
+  const file = req.file
 
   // Kiểm tra thông tin bắt buộc
-  if (!file) return next(new ErrorHandler('Please Upload Avatar', 400));
+  if (!file) return next(new ErrorHandler('Please Upload Avatar', 400))
   if (!username || !email || !password) {
-    return next(new ErrorHandler('Missing required fields', 400));
+    return next(new ErrorHandler('Missing required fields', 400))
   }
 
   // Kiểm tra xem username hoặc email đã tồn tại chưa
-  const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+  const existingUser = await User.findOne({ $or: [{ username }, { email }] })
   if (existingUser) {
-    return next(new ErrorHandler('Username or Email is already used', 400));
+    return next(new ErrorHandler('Username or Email is already used', 400))
   }
 
   // Mã hóa mật khẩu
-  const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcrypt.hash(password, 10)
 
   // Upload avatar lên Cloudinary
-  const result = await uploadFilesToCloudinary([file]);
+  const result = await uploadFilesToCloudinary([file])
   const avatar = {
     public_id: result[0].public_id,
     url: result[0].url,
-  };
+  }
 
   // Tạo user mới
   const newUser = new User({
@@ -107,9 +106,9 @@ const addUser = TryCatch(async (req, res, next) => {
     password: hashPassword,
     avatar,
     role: role || 'user',
-  });
+  })
 
-  await newUser.save();
+  await newUser.save()
 
   // Trả về phản hồi
   res.status(201).json({
@@ -122,8 +121,8 @@ const addUser = TryCatch(async (req, res, next) => {
       avatar: newUser.avatar,
       role: newUser.role,
     },
-  });
-});
+  })
+})
 
 const getAllUsers = TryCatch(async (req, res, next) => {
   const users = await User.find().select('-password')

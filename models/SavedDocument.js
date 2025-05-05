@@ -17,6 +17,9 @@ const savedDocumentSchema = new mongoose.Schema({
   },
 })
 
+// Ngăn trùng lặp (1 user không lưu 1 document nhiều lần)
+savedDocumentSchema.index({ userId: 1, documentId: 1 }, { unique: true })
+
 const SavedDocument = mongoose.model('SavedDocument', savedDocumentSchema)
 
 export default SavedDocument
