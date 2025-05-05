@@ -12,7 +12,7 @@ const saveDocument = TryCatch(async (req, res, next) => {
   res.status(201).json({
     success: true,
     message: 'Document saved successfully',
-    saved,
+    saved: true,
   })
 })
 
@@ -46,7 +46,7 @@ const isDocumentSaved = TryCatch(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    saved: !!exists,
+    isSaved: !!exists,
   })
 })
 

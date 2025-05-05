@@ -28,7 +28,9 @@ const addReview = TryCatch(async (req, res, next) => {
 const getReviewsByDocument = TryCatch(async (req, res, next) => {
   const { documentId } = req.params
 
-  const reviews = await Review.find({ documentId }).populate('userId', 'name')
+  const reviews = await Review.find({ documentId })
+    .populate('userId', 'username avatar') // người viết review
+    .populate('replies.userId', 'username avatar') // người trả lời
 
   res.status(200).json({
     success: true,
@@ -74,26 +76,24 @@ const addReply = TryCatch(async (req, res, next) => {
   const { userId, reply } = req.body
 
   const review = await Review.findById(reviewId)
-  if (!review) {
-    return next(new ErrorHandler('Review not found', 404))
-  }
+  if (!review) return next(new ErrorHandler('Review not found', 404))
 
-  const replyToUser = reply.match(/@(\w+)/) // Sử dụng RegEx để tìm @username
-
+  // Tìm repliedToUserId nếu có @mention
+  const repliedToUsername = reply.match(/@(\w+)/)
   let repliedToUserId = null
-  if (replyToUser) {
-    const username = replyToUser[1] // username được tìm thấy
-    const user = await User.findOne({ username }) // Tìm người dùng theo username
-    if (user) {
-      repliedToUserId = user._id
-    }
+  if (repliedToUsername) {
+    const user = await User.findOne({ username: repliedToUsername[1] })
+    if (user) repliedToUserId = user._id
   }
 
-  review.replies.push({
+  const newReply = {
     userId,
     reply,
     repliedToUserId,
-  })
+    createdAt: new Date(),
+  }
+
+  review.replies.push(newReply)
   await review.save()
 
   res.status(200).json({

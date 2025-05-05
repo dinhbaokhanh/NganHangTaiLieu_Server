@@ -4,8 +4,8 @@ import {
   unsaveDocument,
   getSavedDocumentsByUser,
   isDocumentSaved,
-} from '../controllers/savedDocumentController'
-import { isAuthenticated } from '../middleware/Authenticate'
+} from '../controllers/savedDocumentController.js'
+import { isAuthenticated } from '../middleware/Authenticate.js'
 
 const router = express.Router()
 
