@@ -3,6 +3,7 @@ import multer from 'multer'
 import {
   deleteDocument,
   getAllDocuments,
+  getDocumentById,
   replaceDocument,
   updateDocument,
   uploadDocument,
@@ -23,6 +24,8 @@ router.post(
 )
 
 router.get('/', getAllDocuments)
+router.get('/:id', getDocumentById)
+
 router.put('/:id', isAuthenticated, adminAuth, updateDocument)
 
 router.put(

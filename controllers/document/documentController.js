@@ -136,6 +136,22 @@ const replaceDocument = TryCatch(async (req, res, next) => {
   })
 })
 
+// Lấy chi tiết tài liệu theo ID
+const getDocumentById = TryCatch(async (req, res, next) => {
+  const { id } = req.params
+
+  const document = await Document.findById(id).populate('subject', 'name major')
+
+  if (!document) {
+    throw new ErrorHandler('Không tìm thấy tài liệu', 404)
+  }
+
+  res.status(200).json({
+    success: true,
+    document,
+  })
+})
+
 // Xóa tài liệu
 const deleteDocument = TryCatch(async (req, res, next) => {
   const { id } = req.params
@@ -161,6 +177,7 @@ const deleteDocument = TryCatch(async (req, res, next) => {
 export {
   uploadDocument,
   getAllDocuments,
+  getDocumentById,
   updateDocument,
   replaceDocument,
   deleteDocument,
