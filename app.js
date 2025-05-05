@@ -6,7 +6,8 @@ import cookieParser from 'cookie-parser'
 import { v2 as cloudinary } from 'cloudinary'
 
 import userRoutes from './routes/userRoutes.js'
-import documentRoutes from './routes/documentRoutes.js'
+import documentRoutes from './routes/document/documentRoutes.js'
+import reviewRoutes from './routes/document/reviewRoutes.js'
 import subjectRoutes from './routes/subjectRoutes.js'
 import { errorMiddleware } from './middleware/error.js'
 
@@ -38,6 +39,7 @@ app.use(cookieParser())
 
 app.use('/api/user', userRoutes)
 app.use('/api/document', documentRoutes)
+app.use('/api/document/review', reviewRoutes)
 app.use('/api/subject', subjectRoutes)
 
 app.use(errorMiddleware)

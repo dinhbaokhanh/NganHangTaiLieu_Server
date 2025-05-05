@@ -3,11 +3,12 @@ import multer from 'multer'
 import {
   deleteDocument,
   getAllDocuments,
+  getDocumentById,
   replaceDocument,
   updateDocument,
   uploadDocument,
-} from '../controllers/document/documentController.js'
-import { adminAuth, isAuthenticated } from '../middleware/Authenticate.js'
+} from '../../controllers/document/documentController.js'
+import { adminAuth, isAuthenticated } from '../../middleware/Authenticate.js'
 
 const router = express.Router()
 
@@ -23,6 +24,8 @@ router.post(
 )
 
 router.get('/', getAllDocuments)
+router.get('/:id', getDocumentById)
+
 router.put('/:id', isAuthenticated, adminAuth, updateDocument)
 
 router.put(
