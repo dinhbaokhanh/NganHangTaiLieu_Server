@@ -41,7 +41,7 @@ app.use(cookieParser())
 app.use('/api/user', userRoutes)
 app.use('/api/document', documentRoutes)
 app.use('/api/saved-documents', savedDocumentRoutes)
-app.use('/api/document/reviews', reviewRoutes)
+app.use('/api/reviews', reviewRoutes)
 app.use('/api/subject', subjectRoutes)
 
 app.use(errorMiddleware)

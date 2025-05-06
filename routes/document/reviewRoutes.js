@@ -16,7 +16,7 @@ router.get('/:documentId', isAuthenticated, getReviewsByDocument)
 router.put('/', isAuthenticated, updateReview)
 router.delete('/', isAuthenticated, deleteReview)
 
-router.post('/:reviewId/reply', addReply)
-router.delete('/:reviewId/reply/:replyId', deleteReply)
+router.post('/:reviewId/reply', isAuthenticated, addReply)
+router.delete('/:reviewId/reply/:replyId', isAuthenticated, deleteReply)
 
 export default router
