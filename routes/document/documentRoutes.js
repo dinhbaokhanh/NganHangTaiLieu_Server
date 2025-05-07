@@ -5,6 +5,7 @@ import {
   getAllDocuments,
   getDocumentById,
   replaceDocument,
+  searchDocuments,
   updateDocument,
   uploadDocument,
 } from '../../controllers/document/documentController.js'
@@ -24,6 +25,8 @@ router.post(
 )
 
 router.get('/', getAllDocuments)
+router.get('/search', searchDocuments)
+
 router.get('/:id', getDocumentById)
 
 router.put('/:id', isAuthenticated, adminAuth, updateDocument)
