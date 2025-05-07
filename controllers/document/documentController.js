@@ -174,6 +174,27 @@ const deleteDocument = TryCatch(async (req, res, next) => {
   })
 })
 
+// Tìm kiếm tài liệu theo từ khóa
+const searchDocuments = TryCatch(async (req, res, next) => {
+  const { keyword } = req.query
+
+  if (!keyword) {
+    throw new ErrorHandler('Thiếu từ khóa tìm kiếm', 400)
+  }
+
+  const regex = new RegExp(keyword, 'i') // 'i' là để không phân biệt hoa thường
+
+  const documents = await Document.find({
+    $or: [{ title: regex }, { description: regex }, { author: regex }],
+  }).populate('subject', 'name major')
+
+  res.status(200).json({
+    success: true,
+    count: documents.length,
+    documents,
+  })
+})
+
 export {
   uploadDocument,
   getAllDocuments,
@@ -181,4 +202,5 @@ export {
   updateDocument,
   replaceDocument,
   deleteDocument,
+  searchDocuments,
 }
