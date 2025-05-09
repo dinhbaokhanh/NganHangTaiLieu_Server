@@ -10,6 +10,7 @@ import documentRoutes from './routes/document/documentRoutes.js'
 import savedDocumentRoutes from './routes/savedDocumentRoutes.js'
 import reviewRoutes from './routes/document/reviewRoutes.js'
 import subjectRoutes from './routes/subjectRoutes.js'
+import quizRoutes from './routes/quiz/quizRoutes.js'
 import { errorMiddleware } from './middleware/error.js'
 
 dotenv.config()
@@ -43,6 +44,7 @@ app.use('/api/document', documentRoutes)
 app.use('/api/saved-documents', savedDocumentRoutes)
 app.use('/api/reviews', reviewRoutes)
 app.use('/api/subject', subjectRoutes)
+app.use('/api/quiz', quizRoutes)
 
 app.use(errorMiddleware)
 
