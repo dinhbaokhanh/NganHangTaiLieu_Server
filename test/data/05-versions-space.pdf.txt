@@ -1,0 +1,1938 @@
+
+
+HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG  
+KHOA CÔNG NGHỆ THÔNG TIN 
+-------------------------------- 
+ 
+  
+  
+ 
+   
+  
+ 
+BÁO CÁO THỰC HÀNH BÀI TẬP LỚN 
+CƠ SỞ DỮ LIỆU PHÂN TÁN 
+ 
+ĐỀ TÀI: 
+QUẢN LÝ ĐĂNG KÍ TÍN CHỈ 
+ 
+Giảng viên: Phan Thị Hà 
+Nhóm bài tập lớn: Lớp: 1;        Nhóm 08 
+Thành viên: 
+• Hoàng Trọng Khôi – B21DCVT026 
+• Ngọ Đức Duy – B21DCVT161 
+• Nguyễn Tuấn Huy – B21DCVT025 
+• Nguyễn Vũ Minh Hoàng – B21DCDT013 
+ 
+ 
+ 
+ 
+ 
+Hà Nội, 04/2024
+
+Nhóm 8 Page 1 
+ 
+ 
+PHẦN 1: ĐẶT VẤN ĐỀ 
+ 
+I. Giới thiệu 
+1. Nhu cầu và tầm quan trọng của dự án 
+ 
+- Trong bối cảnh hiện đại, với sự phát triển của công nghệ thông tin và việc đào tạo 
+đại học đang chuyển sang hệ thống tín chỉ, việc quản lý và đăng ký tín chỉ cho sinh 
+viên trở nên phức tạp và khó khăn hơn.  
+- Đặc biệt là khi một trường đại học có nhiều cơ sở đào tạo ở các nơi khác nhau (một 
+học viện có 1 trụ sở chính ở Hà Nội và 3 trụ sở đào tạo ở Đà Nẵng, Hải Phòng, Nam 
+Định) việc quản lý dữ liệu và thông tin sinh viên trở nên khó khăn hơn nữa. Để giải 
+quyết vấn đề này, việc xây dựng một hệ thống cơ sở dữ liệu phân tán để hỗ trợ việc 
+quản lý sinh viên và đăng ký tín chỉ trở nên cần thiết. 
+- Dự án cơ sở dữ liệu phục vụ cho việc đăng ký tín chỉ của sinh viên theo học hệ đại 
+học mang lại nhiều lợi ích quan trọng: 
+• Tăng cường hiệu suất quản lý: Hệ thống cơ sở dữ liệu phân tán giúp tăng 
+cường hiệu suất quản lý đào tạo và đăng ký tín chỉ, giảm thiểu thời gian và 
+công sức cần thiết để xử lý các yêu cầu và thông tin của sinh viên. Điều này 
+đặc biệt quan trọng trong môi trường đại học hiện đại, nơi số lượng sinh viên 
+và tín chỉ cần đăng ký đang tăng lên một cách liên tục. 
+• Cải thiện trải nghiệm cho sinh viên: Việc sử dụng hệ thống cơ sở dữ liệu 
+phân tán giúp sinh viên dễ dàng và nhanh chóng truy cập và cập nhật thông tin 
+đăng ký tín chỉ của mình, từ đó cải thiện trải nghiệm học tập và quản lý thời 
+gian học. 
+• Tăng cường bảo mật và quản lý dữ liệu: Hệ thống cơ sở dữ liệu phân tán 
+giúp bảo vệ thông tin cá nhân và dữ liệu đăng ký tín chỉ của sinh viên, đồng 
+thời cung cấp cơ chế quản lý dữ liệu mạnh mẽ và linh hoạt, giúp ngăn chặn 
+việc trùng lặp và sai sót. 
+• Hỗ trợ quản lý tài nguyên: Việc sử dụng hệ thống cơ sở dữ liệu phân tán giúp 
+trường đại học quản lý tài nguyên học tập một cách hiệu quả, giúp đảm bảo 
+rằng tài nguyên được phân bổ một cách công bằng và hiệu quả cho tất cả sinh 
+viên. 
+• Tiết kiệm chi phí và thời gian: Việc tự động hóa quá trình đăng ký tín chỉ và 
+quản lý dữ liệu giúp tiết kiệm thời gian và nguồn lực cho các cơ quan quản lý, 
+
+Nhóm 8 Page 2 
+ 
+ 
+đồng thời giảm thiểu lỗi và sai sót trong quá trình quản lý. 
+ 
+2. Sơ lược về dự án 
+Dự án này tập trung vào việc quản lý dữ liệu đăng kí tín chỉ của các sinh viên 
+theo học ở các cơ sở đào tạo của học viện. Dưới đây là tổng quan về cách dữ liệu 
+được tổ chức và quản lý: 
+- Tác nhân  là các học sinh sử dụng phần mềm để đăng kí tín chỉ, công việc sữ 
+sảy ra thường xuyên mỗi kỳ 1 lần 
+-  Mỗi khi đăng kí thì sinh viên gõ vào mã sinh viên và pass thì toàn bộ thông 
+tin của sinh viên sẽ được hiển thị lên ( mã sv, tên sinh viên, DOB, quê, lớp 
+niên chế): 
+o +b1: Sau đó sinh viên sẽ lựa chọn mã môn học để đăng kí , các thông 
+tin mã môn học sẽ hiển thị lên (ID môn học, tên môn học, số tiết, điều 
+kiện tiên quyết, Thời khoá biểu)=> sinh viên phải chọn thời một thời 
+khoa biểu cụ thể..Mỗi môn học thì sinh viên sẽ phải làm 1 lần, mỗi lần 
+sẽ có 1 dòng thông tin 
+o => có n môn thì phải làm b1 n lần, có 1 bảng gồm  n dòng, mỗi dòng 
+là thông tin 1 môn đăn kí tc 
+Theo yêu cầu của bài toán , cần có lưu: 
+o Thông tin về hồ sơ sinh viên  trong CSDL: (  mã  sv,  tên  sinh  viên, 
+DOB, quê, lớp niên chế) 
+o Thông tin của môn học: (ID môn học, tên môn học, số tiết, điều kiện 
+tiên quyết, Thời khoá biểu) 
+o Thông tin của mỗi lần đăng kí: Mã sv, Mã môn học, tkb, lần 
+ 
+ 
+- Dữ liệu về môn học sẽ được coi là dữ liệu chung và được cập nhật tại máy chủ 
+trung tâm. 
+- Mỗi trụ sở đào tạo sẽ có dữ liệu riêng về các thông tin như trụ sở đào tạo, khoa, 
+sinh viên, giảng viên, lớp học phần, đăng ký lịch học. Dữ liệu này có thể được 
+cập nhật và quản lý trực tiếp tại từng máy trạm và máy chủ. 
+- Dự án sẽ triển khai với 1 vùng quản lý và 8 vùng xử lý khác nhau. 
+- Chi tiết về cách dữ liệu được quản lý tại các điểm sau: 
+• Trụ sở chính ở Hà Nội: Đây là nơi đặt máy chủ trung tâm, có trách 
+nhiệm quản lý toàn bộ dữ liệu của hệ thống. 
+
+Nhóm 8 Page 3 
+ 
+ 
+o Chức năng: Quản lý dữ liệu toàn hệ thống. 
+ 
+o Dữ liệu: Bao gồm tất cả các loại dữ liệu. 
+o Nguồn dữ liệu: Được nhân viên nhập cũng như các máy trạm trả về. 
+o Dữ liệu vận chuyển đến: Các máy trạm. 
+o Đối tượng sử dụng: Nhân viên quản lý hệ thống, được phép quản lý ( 
+thêm, sửa, xóa) tất cả các dữ liệu. 
+• Các máy trạm ở Đà Nẵng, Hải Phòng, Nam Định: 
+o Chức năng: Quản lý dữ liệu của tất cả các đối tượng của trụ sở đó 
+o Dữ liệu: 
+o Nguồn dữ liệu: Được nhân viên nhập cũng như máy chủ gửi đến. 
+o Dữ liệu vận chuyển đến: Máy chủ. 
+o Đối tượng sử dụng: Nhân viên hệ thống, giảng viên, sinh viên. 
+o Các quyền truy cập của người dùng:  
++Nhân Viên trụ sở chính: tất cả quyền  
++Nhân  viên  trụ sở: đọc, thêm sửa xóa thông tin dữ liệu của trụ sở 
+mình bao gồm: thông tin khoa, sinh viên, giảng viên, lớp học phần, 
+đăng ký lịch học. 
++Sinh Viên: đọc thông tin như: thời khóa biểu, lịch sử đăng kí, thông 
+tin cá nhân, thông tin các lớp học phần. Nhập nguyện vọng đăng kí 
+tín chỉ. 
++Giảng Viên: đọc và nhập, xem thông tin các lớp học mình dạy, 
+thông tin sinh viên, thông tin cá nhân. 
+II. Vị trí và nhiệm vụ, dữ liệu khi triển khai dự án 
+Dự án triển khai bao gồm: 1 máy chủ, 3 trụ sở: 
+- Vị trí 1: Server chi nhánh, nơi đặt máy trạm tại trụ sở đào tạo Đà Nẵng. 
+- Vị trí 2: Server chi nhánh, nơi đặt máy trạm tại trụ sở đào tạo Hải Phòng. 
+- Vị trí 3: Server chi nhánh, nơi đặt máy trạm tại trụ sở đào tạo Nam Định. 
+- Vị trí 4: Server tổng, nơi đặt máy chủ trụ sở chính ở Hà Nội. 
+ 
+III. Các đối tượng tham gia sử dụng dự án 
+ 
+- Sinh viên:  
+
+Nhóm 8 Page 4 
+ 
+ 
+o Xem thông tin của cá nhân, xem thời khóa biểu, thông tin các lớp học 
+phần, tín chỉ đã đăng kí.  
+o Sửa thông tin cá nhân, đăng kí tín chỉ. 
+- Giảng viên:  
+o Quản lý thông tin của lớp học phần cũng như sinh viên trong lớp học 
+phần, môn học, lịch dạy. 
+o Thống kê đăng kí tín chỉ của từng sinh viên. 
+- Nhân viên(tại trụ sở):  
+o Có tất cả các quyền của giảng viên và sinh viên.  
+o Quản lý thông tin của sinh viên và giảng viên trụ sở đó.  
+o Quản lý thông tin các lớp học phần, khoa, trụ sở đó  
+o Xem báo cáo thống kê của trụ sở đó.  
+- Người quản lý (tại máy chủ tổng):  
+o Quản lý tất cả dữ liệu có trong hệ thống, cũng như có tất cả các quyền 
+của các đối tượng trên.  
+o Xem báo cáo thống kê của các trụ sở đào tạo. 
+ 
+PHẦN 2: PHÂN TÍCH 
+  
+I. Các chức năng chính của hệ thống trong dự án 
+- Quản lý thông tin các cơ sở đào tạo (Thêm, sửa, xóa, thống kê tùy chọn). 
+- Quản lý thông tin các khoa đào tạo ở học viện (Thêm, sửa, xóa, thống kê 
+tùy chọn). 
+- Quản lý thông tin giảng viên của các khoa (Thêm, sửa, xóa, thống kê tùy 
+chọn). 
+- Quản lý thông tin môn học giảng dạy của các khoa (Thêm, sửa, xóa, thống 
+kê tùy chọn). 
+- Quản lý thông tin của các lớp học phần, lịch học, số lượng học sinh đã 
+đăng kí vào lớp (Thêm, sửa, xóa, thống kê tùy chọn). 
+- Quản  lý  thông  tin  sinh  viên gồm danh  sách  môn đăng  ký,  thời  khóa 
+biểu.(Thêm, sửa, xóa, thống kê tùy chọn). 
+ 
+II. Phân quyền cho các nhóm đối tượng thực hiện dự án 
+
+Nhóm 8 Page 5 
+ 
+ 
+ 
+ 
+ -Sinh viên tại các trụ sở:  
+o Xem thông tin của cá nhân, xem thời khóa biểu, thông tin các lớp học 
+phần, tín chỉ đã đăng kí.  
+o Sửa, xóa thông tin cá nhân 
+o Đăng kí tín chỉ 
+- Giảng viên tại các trụ sở: 
+o Xem thông tin môn học, thông tin của lớp học phần, lịch dạy. 
+o Thêm, sửa, xóa, xem thông tin sinh viên trong lớp học phần. 
+o Thống kê danh sách sinh viên đăng kí vào lớp, thông tin sinh viên. 
+- Nhân viên (tại trụ sở): 
+o Thêm sửa xóa xem thông tin của sinh viên trụ sở đó. 
+o Thêm sửa xóa xem thông tin của giảng viên trụ sở đó. 
+o Xem thông tin khoa tại trụ sở đào tạo. 
+o Xem báo cáo thông kế của trụ sở. 
+- Nhân viên quản lý (tại máy chủ tổng): 
+o Truy cập vào dữ liệu có trong hệ thống, cũng như có tất cả các quyền 
+của các đối tượng trên. 
+o Thêm sửa xóa thông tin của tất cả dữ liệu. 
+o Xem báo cáo chung của các chi nhánh. 
+III. Phân tích chức năng của từng vị trí thực hiện dự án 
+1. Tại trụ sở chính Hà Nội 
+- Nhân viên quản lý tại trụ sở chính có quyền quản lý tổng thể các thông 
+tin về trụ sở đào tạo, các khoa, giảng viên, các môn học trong chương 
+trình,  sinh  viên, lịch học các lớp, danh sách đăng kí (Cụ thể có quyền 
+thêm, sửa, xóa thông tin). 
+2. Chi nhánh Đà Nẵng, Hải Phòng, Nam Định 
+-Quản lý thông tin tại trụ sở của mình gồm: các khoa, các giảng viên, các 
+sinh viên, thông tin các lớp học phần, danh sách đăng kí. (thao tác cụ thể 
+đọc, thêm, sửa, xóa). 
+-Dữ liệu về các khoa, các giảng viên, thông tin các môn học được cập 
+nhật máy trạm sẽ được chuyển về máy chủ định kỳ hàng tuần. 
+-Dữ liệu về thông tin sinh viên, các lớp học phần, thông tin đăng kí được 
+
+Nhóm 8 Page 6 
+ 
+ 
+cập nhật máy trạm sẽ được chuyển về máy chủ sau 1 phút. 
+-Chỉ được quyền xem thông tin về môn học, trụ sở đào tạo nhưng không 
+có quyền chỉnh sửa. (quyền chỉnh sửa chỉ có ở trụ sở chính). 
+IV. Chức năng của máy chủ, máy trạm 
+1. Chức năng ở máy trạm 
+• - Quản lý thông tin các cơ sở đào tạo (Thêm, sửa, xóa, thống kê tùy chọn). 
+• - Quản lý thông tin các khoa đào tạo ở học viện (Thêm, sửa, xóa, thống kê tùy 
+chọn). 
+• - Quản lý thông tin giảng viên của các khoa (Thêm, sửa, xóa, thống kê tùy 
+chọn). 
+• - Quản lý thông tin môn học giảng dạy của các khoa (Thêm, sửa, xóa, thống kê 
+tùy chọn). 
+• - Quản lý thông tin của các lớp học phần, lịch học, số lượng học sinh đã đăng 
+kí vào lớp (Thêm, sửa, xóa, thống kê tùy chọn). 
+• - Quản  lý  thông  tin  sinh  viên gồm danh  sách  môn đăng  ký,  thời  khóa 
+biểu.(Thêm, sửa, xóa, thống kê tùy chọn). 
+ 
+Chức năng quản lý thông tin khoa đào tạo  
+- Học viện có thể thực hiện các thao tác thêm, sửa, xóa thông tin khoa đào tạo. 
+Các thông tin sẽ được lưu trữ trong cơ sở dữ liệu. 
+- Các thông tin khoa đào tạo gồm: 
++ Mã khoa đào tạo. 
++ Tên khoa đào tạo. 
+ 
+Chức năng quản lý thông tin lớp học 
+- Học viện có thể thực hiện các thao tác thêm, sửa, xóa thông tin lớp học. 
+Các thông tin sẽ được lưu trữ trong cơ sở dữ liệu. 
+- Các thông tin lớp học gồm: 
++ Mã lớp học. 
++ Kì học. 
++ Thời gian học trong tuần. 
++ Ca học. 
++ Số lượng đăng kí vào lớp 
+ 
+Chức năng quản lý thông tin giáo viên 
+- Học viện có thể thực hiện các thao tác thêm, sửa, xóa thông tin giảng viên. 
+Các thông tin sẽ được lưu trữ trong cơ sở dữ liệu. 
+- Các thông tin giảng viên gồm: 
+
+Nhóm 8 Page 7 
+ 
+ 
++ Mã giáo viên. 
++ Tên giáo viên. 
++ Địa chỉ giáo viên. 
++ Số điện thoại liên hệ của giáo viên. 
++ Trình độ bằng cấp của giáo viên. 
+ 
+Chức năng quản lý thông tin sinh viên 
+- Học viện có thể thực hiện các thao tác thêm, sửa, xóa thông tin sinh viên. Các 
+thông tin sẽ được lưu trữ trong cơ sở dữ liệu. 
+- Các thông tin sinh viên gồm: 
++ Mã sinh viên. 
++ Tên sinh viên. 
++ Năm nhập học. 
++ Địa chỉ mail sinh viên. 
++ Ngày sinh. 
+ 
+Chức năng quản lý danh sách đăng ký tín chỉ 
+- Học viện, sinh viên truy cập vào hệ thống có thể thực hiện các thao tác thêm, 
+sửa, xóa các yêu cầu đăng kí tín chỉ. Các thông tin sẽ được lưu trữ trong cơ sở dữ 
+liệu. 
+- Các thông tin đăng ký gồm: 
++ Mã đăng kí 
++ Thời gian đăng kí 
+ 
+2. Chức năng ở máy chủ 
+- Có toàn bộ chức năng của máy trạm 
+- Chức năng quản lý thông tin môn học: Giúp máy chủ có thể thực hiện các thao 
+tác thêm, sửa, xóa thông tin môn học. Các thông tin này sẽ được lưu trữ trong cơ sở 
+dữ liệu. 
+Các thông tin môn học gồm: 
++ Mã môn học. 
++ Tên môn học. 
++ Số lượng tín chỉ tích lũy. 
+- Chức năng xem báo cáo thống kê: Giúp cho người quản lý tổng biết được những 
+thông tin như: báo cáo về tình trạng khoa, báo cáo về giảng viên, báo cáo về lớp học, 
+lịch học, số lượng đăng kí, báo cáo của mọi người với các trụ sở, các trụ sở với nhau, 
+... 
+- Chức năng phân quyền: Giúp cho người quản lý thực hiện phân quyền cho các tài 
+
+Nhóm 8 Page 8 
+ 
+ 
+khoản. 
+ 
+ 
+V. Phân tích cơ sở dữ liệu 
+1. Lược đồ thực thể E-R 
+ Phân tích lược đồ E-R: 
+- Headquarter - Department là mối quan hệ một - nhiều vì một trụ sở chính có thể 
+có nhiều trụ sở con. 
+- Department - Student là mối quan hệ một - nhiều vì một trụ sở có nhiều sinh viên 
+theo học. 
+- Department - Teacher  là mối quan hệ một - nhiều vì một trụ sở có nhiều giáo viên 
+giảng dạy. 
+- Teacher - Class là mối quan hệ một - nhiều vì một giáo viên có thể dạy nhiều lớp học. 
+- Subject - Class là mối quan hệ một - nhiều vì một môn học có thể có nhiều lịch học 
+môn được tổ chức. 
+- Student - Registration là mối quan hệ một - nhiều vì một sinh viên có thể có nhiều lượt 
+đăng kí môn học phần. 
+- Class – Registration  là mối quan hệ một - nhiều vì một lịch học môn có thể có 
+nhiều lượt đăng kí của nhiều sinh viên khác nhau. 
+ 
+ 
+
+Nhóm 8 Page 9 
+ 
+ 
+ 
+2. Lược đồ quan hệ 
+ 
+ 
+ 
+ 
+3. Bảng tần suất truy cập các vị trí 
+ 
+ 
+
+Nhóm 8 Page 10 
+ 
+ 
+ 
+ 
+Thực thể Trụ sở chính Các trạm 
+- W: tạo mới và ghi 
+- E: sửa 
+- D: xóa 
+- R: đọc 
+- H: tần suất cao 
+- L: tần suất thấp 
+Headquarter H.R, L.WED H.R 
+Department H.R, L.WED H.R, L.WED 
+Subject H.R, L.WED H.R 
+Class H.RWED H.RWED 
+Teacher H.R, L.WED H.R, L.WED 
+Student H.RWED H.RWED 
+Registration H.RWED H.RWED 
+ 
+Phân tích : 
+- Headquarter (Các trụ sở) 
++ Tại trụ sở chính, việc đọc được thực hiện với tần suất cao, trong khi việc tạo, cập 
+nhật và xóa bản ghi được thực hiện ít hơn do tính cố định của các chi nhánh. 
++ Tại trụ sở trạm, không có quyền tạo, cập nhật hoặc xóa bản ghi; việc đọc được 
+thực hiện với tần suất cao. 
+- Department (Khoa) 
++ Tại trụ sở chính, việc đọc dữ liệu của các khoa được thực hiện với tần suất cao, 
+nhưng việc tạo, cập nhật và xóa bản ghi của các khoa được thực hiện ít hơn do việc 
+tạo mới các khoa không thường xuyên. 
++ Tại trụ sở trạm, việc đọc dữ liệu của các khoa được thực hiện với tần suất cao, 
+nhưng việc tạo, cập nhật và xóa bản ghi của các khoa được thực hiện ít hơn do việc 
+tạo mới các khoa không thường xuyên. 
+- Subject (Môn học) 
++ Tại trụ sở chính, việc đọc dữ liệu về môn học được thực hiện với tần suất cao, 
+nhưng việc thêm, cập nhật và xóa bản ghi về môn học được thực hiện ít hơn vì môn 
+học trong chương trình giảng dạy không thay đổi thường xuyên. 
++ Tại trụ sở trạm, việc đọc dữ liệu về môn học được thực hiện với tần suất cao, 
+nhưng việc thêm, cập nhật và xóa bản ghi về môn học không được phép thực hiện 
+vì quyết định này chỉ được thực hiện tại trụ sở chính. 
+ 
+-Class (Lớp học phần) 
+
+Nhóm 8 Page 11 
+ 
+ 
++Ở trụ sở chính việc đọc, thêm, cập nhật và xóa bản ghi được thực hiện thường 
+xuyên với tần suất cao vì mỗi kì học sẽ có các lớp học mới với lịch học, giáo viên và 
+học sinh khác nhau. 
++Ở trụ sở trạm việc đọc, thêm, cập nhật và xóa bản ghi được thực hiện thường 
+xuyên với tần suất cao vì mỗi kì học sẽ có các lớp học mới với lịch học, giáo viên 
+và học sinh khác nhau. 
+ 
+-Teacher (Giáo viên) 
++Ở trụ sở chính việc đọc được thực hiện ở tần suất cao vì việc này được thực hiện 
+thường xuyên bằng việc cập nhật giáo viên cho mỗi lớp. Việc thêm, cập nhật và 
+xóa bản ghi được thực hiện với tần suất thấp vì mỗi năm giảng viên di dời vị trí, 
+thay đổi công việc là rất thấp. 
++Ở trụ sở trạm việc đọc được thực hiện ở tần suất cao vì việc này được thực hiện 
+thường xuyên bằng việc cập nhật giáo viên cho mỗi lớp. Việc thêm, cập nhật và 
+xóa bản ghi được thực hiện với tần suất thấp vì mỗi năm giảng viên di dời vị trí, 
+thay đổi công việc là rất thấp. 
+ 
+-Student (Sinh viên) 
++Ở trụ sở chính việc đọc, thêm, cập nhật và xóa bản ghi được thực hiện thường 
+xuyên với tần suất cao vì mỗi năm sẽ có một lượng lớn học sinh tham gia học và 
+1 lượng lớn học sinh kết thúc quá trình học. 
++Ở trụ sở trạm việc đọc, thêm, cập nhật và xóa bản ghi được thực hiện thường 
+xuyên với tần suất cao vì mỗi năm sẽ có một lượng lớn học sinh tham gia học và 
+1 lượng lớn học sinh kết thúc quá trình học. 
+ 
+-Registration (Đăng kí học phần) 
++Ở trụ sở chính việc đọc, ghi, sửa, xóa các entry đăng kí được thực hiện thường 
+xuyên với tần suất cao vì với mỗi kì học sẽ có một lượng lớn sinh viên tham gia 
+đăng kí học phần cho các môn học kì sau trên tất cả trụ sở đào tạo và sau khi đăng 
+kí thành công sẽ phải loại bỏ số lượng lớn các yêu cầu đăng kí đó khỏi hệ thống. 
++Ở trụ sở trạm việc đọc, ghi, sửa, xóa các entry đăng kí được thực hiện thường 
+xuyên với tần suất cao vì với mỗi kì học sẽ có một lượng lớn sinh viên tham gia 
+đăng kí học phần cho các môn học kì sau ở trụ sở đào tạo này và sau khi đăng kí 
+thành công sẽ phải loại bỏ số lượng lớn các yêu cầu đăng kí đó khỏi hệ thống. 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Nhóm 8 Page 12 
+ 
+ 
+ 
+PHẦN 3: THIẾT KẾ 
+ 
+I. Thiết kế hệ thống mạng tổng quan 
+ 
+-  Trụ sở chính: Đặt máy Server chính Hà Nội thực hiện các chức năng và lưu 
+CSDL của toàn hệ thống. 
+- Trụ sở đào tạo Đà Nẵng: Đặt máy Server trạm 1 và các client tương ứng thực 
+hiện chức năng và lưu toàn bộ CSDL thuộc Đà Nẵng. 
+- Trụ sở đào tạo Hải Phòng: Đặt máy Server trạm 2 và các client tương ứng thực 
+hiện chức năng và lưu toàn bộ CSDL thuộc Hải Phòng. 
+- Trụ sở đào tạo Nam Định: Đặt máy Server trạm 3 và các client tương ứng thực 
+hiện chức năng và lưu toàn bộ CSDL thuộc Nam Định. 
+ 
+ 
+II. Thiết kế cơ sở dữ liệu của hệ thống 
+1. Cấu trúc bảng dữ liệu của hệ thống 
+dbo.headquarter 
+    
+Tên thuộc tính Kiểu Ràng buộc Khóa Mô tả 
+ID 
+varchar(20) 
+not null PK ID trụ sở 
+name_headquarter 
+nvarchar(100) 
+  
+Tên trụ sở 
+address 
+nvarchar(100) 
+  
+Địa chỉ trụ sở 
+ 
+dbo.department 
+    
+Tên thuộc tính Kiểu Ràng buộc Khóa Mô tả 
+ID 
+varchar(20)  
+not null PK ID khoa 
+name_department 
+nvarchar(100) 
+  
+Tên khoa 
+id_headquarter 
+varchar(20) 
+not null FK ID trụ sở đào tạo 
+ 
+ 
+
+Nhóm 8 Page 13 
+ 
+ 
+dbo.subject 
+    
+Tên thuộc tính Kiểu Ràng buộc Khóa Mô tả 
+ID 
+varchar(20) 
+not null PK ID môn học 
+name_subject 
+nvarchar(100) 
+  
+Tên môn học 
+number_of_credit int(10) 
+  
+Số tín chỉ 
+ 
+dbo.class 
+    
+Tên thuộc tính Kiểu Ràng buộc Khóa Mô tả 
+ID 
+varchar(20) 
+not null PK ID lớp 
+date date 
+  
+Ngày học 
+shift int(10) 
+  
+Kíp học 
+semester int(10) 
+  
+Kì học 
+number_of_registration int(10) 
+  
+Số lượng đăng kí 
+id_subject 
+varchar(20) 
+not null FK ID môn học 
+id_teacher 
+varchar(20) 
+not null FK ID giảng viên 
+ 
+dbo.teacher 
+    
+Tên thuộc tính Kiểu Ràng buộc Khóa Mô tả 
+ID 
+varchar(20) 
+not null PK ID giảng viên 
+name_teacher 
+nvarchar(100) 
+  
+Tên giảng viên 
+degree 
+nvarchar(100) 
+  
+Bằng cấp 
+address_teacher 
+nvarchar(100) 
+  
+Địa chỉ 
+phone_teacher int(10) 
+  
+Số điện thoại 
+id_department 
+varchar(20) 
+not null FK ID khoa 
+ 
+ 
+ 
+ 
+
+Nhóm 8 Page 14 
+ 
+ 
+   
+dbo.student 
+    
+Tên thuộc tính Kiểu Ràng buộc Khóa Mô tả 
+ID 
+varchar(20) 
+not null PK ID sinh viên 
+name_student 
+nvarchar(100) 
+  
+Tên sinh viên 
+date_of_birth date 
+  
+Ngày sinh 
+year_of_admission int(10) 
+  
+Năm nhập học 
+email_student 
+varchar(100) 
+  
+Địa chỉ email sinh viên 
+id_department 
+varchar(20) 
+not null FK ID khoa 
+    
+dbo.registration 
+    
+Tên thuộc tính Kiểu Ràng buộc Khóa Mô tả 
+ID 
+varchar(20) 
+not null PK ID đăng kí 
+date date 
+  
+Ngày đăng kí 
+id_student 
+varchar(20) 
+not null FK ID học sinh 
+id_class 
+varchar(20) 
+not null FK ID lớp 
+ 
+2. Quan hệ giữa các bảng 
+ 
+
+Nhóm 8 Page 15 
+ 
+ 
+ 
+ 
+ 
+III. Thiết kế cơ sở dữ liệu phân tán 
+1. Lược đồ phục vụ cho phân mảnh ngang dẫn xuất 
+ 
+
+Nhóm 8 Page 16 
+ 
+ 
+2. Thiết kế phân mảnh ngang, nhân bản 
+ 
+- Vị trí 1: Server chi nhánh, nơi đặt máy trạm tại trụ sở đào tạo Đà Nẵng. 
+- Vị trí 2: Server chi nhánh, nơi đặt máy trạm tại trụ sở đào tạo Hải Phòng. 
+- Vị trí 3: Server chi nhánh, nơi đặt máy trạm tại trụ sở đào tạo Nam Định. 
+- Vị trí 4: Server tổng, nơi đặt máy chủ trụ sở chính ở Hà Nội. 
+ 
+Mảnh Trụ sở Cơ sở dữ liệu Phân mảnh ngang nguyên 
+thuỷ 
+Phân mảnh ngang dẫn 
+xuất 
+1 Đà 
+Nẵng 
+Quản lí tín chỉ 
+Đà Nẵng 
+- Bảng phân mảnh: 
+Headquarter 
+- Điều kiện phân tán: 
+HeadquarterDaNang = 
+σID=‘TSDN’(Headquarter) 
+- Bảng phân mảnh: 
+Department 
+- Điều kiện dẫn xuất: 
+Department1 = 
+Department 
+⋈ HeadquarterDaNang 
+ 
+    
+- Bảng phân mảnh: 
+Student 
+- Điều kiện dẫn xuất: 
+Student1 = Student ⋈ 
+Department1 
+    
+- Bảng phân mảnh: 
+Registration 
+- Điều kiện dẫn xuất: 
+Regist1 
+= Regist ⋈ Class1 
+    
+- Bảng phân mảnh: 
+Teacher 
+- Điều kiện dẫn xuất: 
+Teacher1 = Teacher ⋈ 
+Department1 
+    
+- Bảng phân mảnh: Class 
+- Điều kiện dẫn xuất: 
+Class1 
+= Class ⋈ Teacher1 
+2 Hải 
+Phòng 
+Quản lí tín chỉ 
+Hải Phòng 
+- Bảng phân mảnh: 
+Headquarter 
+- Bảng phân mảnh: 
+Department 
+
+Nhóm 8 Page 17 
+ 
+ 
+- Điều kiện phân tán: 
+HeadquarterHaiPhong = 
+σID=‘TSHP’(Headquarter) 
+- Điều kiện dẫn xuất: 
+Department2 = 
+Department 
+⋈ HeadquarterHaiPhong 
+ 
+    
+- Bảng phân mảnh: 
+Student 
+- Điều kiện dẫn xuất: 
+Student2 = Student ⋈ 
+Department2 
+    
+- Bảng phân mảnh: 
+Registration 
+- Điều kiện dẫn xuất: 
+Regist2 
+= Regist ⋈ Class2 
+    
+- Bảng phân mảnh: 
+Teacher 
+- Điều kiện dẫn xuất: 
+Teacher2 = Teacher ⋈ 
+Department2 
+    
+- Bảng phân mảnh: Class 
+- Điều kiện dẫn xuất: 
+Class2 
+= Class ⋈ Teacher2 
+3 Nam 
+Định 
+Quản lí tín chỉ 
+Nam Định 
+- Bảng phân mảnh: 
+Headquarter 
+- Điều kiện phân tán: 
+HeadquarterNamDinh = 
+σID=‘TSND’(Headquarter) 
+- Bảng phân mảnh: 
+Department 
+- Điều kiện dẫn xuất: 
+Department3 = 
+Department 
+⋈ HeadquarterNamDinh 
+ 
+    
+- Bảng phân mảnh: 
+Student 
+- Điều kiện dẫn xuất: 
+Student3 = Student ⋈ 
+Department3 
+    
+- Bảng phân mảnh: 
+Registration 
+- Điều kiện dẫn xuất: 
+
+Nhóm 8 Page 18 
+ 
+ 
+Regist3 
+= Regist ⋈ Class3 
+    
+- Bảng phân mảnh: 
+Teacher 
+- Điều kiện dẫn xuất: 
+Teacher3 = Teacher ⋈ 
+Department3 
+    
+- Bảng phân mảnh: Class 
+- Điều kiện dẫn xuất: 
+Class3 
+= Class ⋈ Teacher3 
+3. Thiết kế định vị và vẽ sơ đồ định vị 
+Thiết kế sơ đồ định vị: 
+Phân mảnh ngang nguyên thủy và phân mảnh ngang dẫn xuất để chia quan hệ tổng 
+thể thành 3 mảnh đặt tại 3 chi nhánh sau: 
+- Server chính đặt tại Hà Nội chứa thông tin của toàn bộ hệ thống: Các Subject(Môn 
+học), Registration(Đăng ký lớp), Teacher(Giáo Viên), Class(Lớp), Student(Học 
+Sinh), Department(Khoa), Headquarter(Trụ sở) của chi nhánh đó. 
+- Trụ sở đào tạo 1: Máy trạm 1 đặt tại Đà Nẵng chứa thông tin của chi nhánh đó; Các 
+Registration(Đăng ký lớp), Teacher(Giáo Viên), Class(Lớp), Student(Học Sinh), 
+Department(Khoa), Subject(Môn học), Headquarter(Trụ sở) của chi nhánh đó. 
+- Trụ Sở đào tạo 2: Máy trạm 2 đặt tại Hải Phòng; Các Registration(Đăng ký lớp), 
+Teacher(Giáo Viên), Class(Lớp), Student(Học Sinh), Department(Khoa), 
+Headquarter(Trụ sở) của chi nhánh đó. 
+- Trụ Sở đào tạo 3: Máy trạm 3 đặt tại Nam Định; Các Registration(Đăng ký lớp), 
+Teacher(Giáo Viên), Class(Lớp), Student(Học Sinh), Department(Khoa), 
+Subject(Môn học) ,Headquarter(Trụ sở) của chi nhánh đó. 
+Sơ đồ định vị: 
+
+Nhóm 8 Page 19 
+ 
+ 
+ 
+ 
+4. Lược đồ ánh xạ 
+ 
+
+Nhóm 8 Page 20 
+ 
+ 
+ 
+IV. Thiết kế lược đồ nhân bản, đồng bộ hóa 
+ 
+- Thông tin tại máy chủ: Các Subject tại máy chủ sẽ được nhân bản tại các máy trạm 
+(đồng bộ hóa về máy trạm mỗi khi có sự thay đổi từ máy chủ). Nhân bản có thể thực 
+thi giữa những CSDL trên cùng một server hay những server khác nhau được kết nối 
+bởi mạng LANs,WANs hay Internet. 
+
+Nhóm 8 Page 21 
+ 
+ 
+- Nếu tại máy chủ có sự cập nhật thông tin Class, Registration, Teacher, Student, 
+Department, HeadQuarter thì sẽ được đồng bộ hóa về trụ sở nó thuộc về. 
+- Thông tin tại máy trạm: Class, Registration, Teacher, Student, Department 
+HeadQuarter được cập nhật thì sẽ được đồng bộ hóa về máy chủ mỗi khi có thông tin. 
+V. Thiết kế vật lý các trạm 
+  
+STT Tên bảng Ý nghĩa 
+1 dbo.student Sinh viên, chứa thông tin liên quan đến sinh viên phục vụ cho 
+công tác quản lý sinh viên. 
+2 dbo.teacher Giảng viên, chứa thông tin liên quan đến giảng viên phục vụ 
+cho công tác quản lý giảng viên. 
+3 dbo.subject Môn học, chứa thông tin liên quan đến môn học phục vụ cho 
+công tác quản lý môn học. 
+4 dbo.registration Đăng ký học, chứa thông tin liên quan đến việc đăng ký học 
+của sinh viên phục vụ cho công tác quản lý sinh viên đăng ký 
+học. 
+5 dbo.headquarter Thông tin trụ sở, chứa các thông tin về trụ sở nơi dạy và học 
+cũng như đặt máy trạm. 
+6 dbo.class Lớp học phần, chứa thông tin liên quan đến lớp học phần 
+phục vụ cho công tác quản lý các lớp học phần. 
+7 dbo.department Chứa thông tin liên quan đến trụ sở đào tạo của cho công tác 
+quản lý thông tin trụ sở đó. 
+ 
+PHẦN 4: CÀI ĐẶT 
+I. Cài đặt SQL Server 2019 
+ 
+Cài đặt SQL Server 2019 bản developer 
+• Truy cập vào đường link để tải (tải bản developer): 
+https://www.microsoft.com/en-us/sql-server/sql-server-downloads 
+ 
+
+Nhóm 8 Page 22 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+• Mở tệp .exe vừa tải 
+ 
+ 
+ 
+• Chọn Download Media sau đó chọn dạng tải về là ISO và chọn đường dẫn rồi 
+ấn download 
+
+Nhóm 8 Page 23 
+ 
+ 
+ 
+• Sau khi tải xong, nhấn close 
+ 
+ 
+
+Nhóm 8 Page 24 
+ 
+ 
+ 
+• Mở tệp .iso và chạy setup.exe 
+ 
+ 
+
+Nhóm 8 Page 25 
+ 
+ 
+ 
+• Giao diện cài đặt hiện lên, chọn Installation sau đó chọn tiếp New SQL server. 
+ 
+• Cài đặt. 
+
+Nhóm 8 Page 26 
+ 
+ 
+ 
+• Chọn Next. 
+ 
+
+Nhóm 8 Page 27 
+ 
+ 
+• Chọn Next. 
+ 
+• Chọn Perform a new installation of SQL Server 2019. 
+
+Nhóm 8 Page 28 
+ 
+ 
+ 
+ 
+• Giao diện sau khi tích vào cài mới, mặc định là Developer, ta cần chuyển sang 
+Evaluation và ấn Next. 
+
+Nhóm 8 Page 29 
+ 
+ 
+ 
+• Chọn Next. 
+ 
+• Chọn chức năng phù hợp với môn học ở mục Features sau đó ấn nút Next. 
+
+Nhóm 8 Page 30 
+ 
+ 
+ 
+ 
+• Ta có thể đặt tên cho Instance (tên có thể đặt tùy ý, không dấu, không 
+khoảng trắng) sau đó nhấn next. 
+
+Nhóm 8 Page 31 
+ 
+ 
+ 
+ 
+• Nhấn next. 
+ 
+ 
+
+Nhóm 8 Page 32 
+ 
+ 
+• Ở mục này, ta bấm chọn chức năng Mix Mode. Đây là chức năng bảo mật 
+cho cơ sở dữ liệu. 
+ 
+ 
+• Tiếp theo các ta nhập mật khẩu cho tài khoản là 123. 
+ 
+
+Nhóm 8 Page 33 
+ 
+ 
+ 
+• Và cuối cùng nhấn nút Add current User để thêm tài khoản. 
+ 
+• Cuối cùng nhấn next cho đến mục Ready to Install. 
+
+Nhóm 8 Page 34 
+ 
+ 
+ 
+• Ấn Install. 
+ 
+• Giao diện cài đặt thành công -> ấn Close. 
+
+Nhóm 8 Page 35 
+ 
+ 
+ 
+3. Cài đặt SQL Server Management Studio Tools (SSMS). 
+* Giới thiệu : SSMS là một ứng dụng phần mềm thiết kế bởi Microsoft, ra mắt lần 
+đầu năm 2005. Ứng dụng này cho phép lập trình viên cấu hình, quản lý và quản trị bộ 
+máy cơ sở dữ liệu (database engine) SQL Server. SSMS phổ biến và được sử dụng 
+rộng rãi trong cộng đồng lập trình viên và quản trị viên cơ sở dữ liệu bởi những ưu 
+điểm 
+-Miễn phí 
+-Trải nghiệm người dùng tốt 
+-Nhiều lựa chọn add-in 
+-Dễ cài đặt 
+• Click vào Install SQL Server Management Tools 
+
+Nhóm 8 Page 36 
+ 
+ 
+ 
+Hoặc ấn vào đường link để cài đặt: 
+https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-
+management-studio- ssms?redirectedfrom=MSDN&view=sql-server-ver15 
+ 
+• Sau khi download tachạy file “SSMS-Setup-ENU.exe” để cài đặt. 
+
+Nhóm 8 Page 37 
+ 
+ 
+ 
+• Chọn Install để cài đặt, quá trình cài đặt diễn ra hoàn toàn tự động 
+ 
+
+Nhóm 8 Page 38 
+ 
+ 
+ 
+• Chờ cho đến khi quá trình cài đặt hoàn tất và khởi động lại server 
+ 
+ 
+ 
+ 
+II. Cài đặt tường lửa (firewall) để mở cổng cho SQL 
+Giới thiệu : Tường lửa hay firewall là một hệ thống bảo mật mạng giám sát và kiểm 
+soát lưu lượng mạng đến và đi dựa trên các quy tắc bảo mật được xác định trước. Một 
+tường lửa thường thiết lập một rào cản giữa một mạng nội bộ đáng tin cậy và mạng 
+bên ngoài không tin cậy, chẳng hạn như Internet. 
+3. Tắt tường lửa 
+• Tìm kiếm Firewall trong thanh công cụ 
+
+Nhóm 8 Page 39 
+ 
+ 
+ 
+ 
+• Chọn Turn Windows Defender Firewall on or off 
+ 
+
+Nhóm 8 Page 40 
+ 
+ 
+ 
+• Thực hiện tắt tường lửa -> chọn Turn off Windows Defender Firewall ở cả 2 mục 
+-> Nhấn OK 
+ 
+• Tường lửa đã được tắt thành công. 
+ 
+
+Nhóm 8 Page 41 
+ 
+ 
+ 
+ 
+4. Mở port 1433 
+Mục đích : Theo mặc định, SQL Server sử dụng Cổng TCP 1433 để giao tiếp với các 
+ứng dụng. Nếu ta đang chạy một ứng dụng yêu cầu kết nối với SQL Server, ta phải 
+bật cổng 1433 cho SQL Server để kết nối.Sau đây là các bước để mở port 1433 
+• Trong thanh tìm kiếm, tìm SQL Server 2019 Configuration Manager 
+ 
+ 
+ 
+• Chọn SQL Server Network Configuration + Protocols for CSDLPTNHOM8 
+
+Nhóm 8 Page 42 
+ 
+ 
+ 
+• Chọn Properties của protocol TCP/IP 
+ 
+• Nhấn IP Addresses, lướt xuống dòng cuối cùng IPAll và chọn TCP Port là 1433 
+-> Bấm OK. 
+
+Nhóm 8 Page 43 
+ 
+ 
+ 
+ 
+• Chọn SQL Server Sevices và Restart lại Server đã config và restart lại. 
+ 
+ 
+ 
+ 
+
+Nhóm 8 Page 44 
+ 
+ 
+5. Thêm New Rule: CSDLPTNHOM8 
+• Mục đích: Để mở một cổng 1433 trong tường lửa Windows để truy cập TCP Chọn 
+Advanced Settings 
+ 
+• Chọn Inbound Rules -> New Rule 
+ 
+• Rule Type chuyển sang Port => Chọn Next 
+
+Nhóm 8 Page 45 
+ 
+ 
+ 
+• Chọn specific local ports + cổng 1433 -> ấn Next 
+ 
+
+Nhóm 8 Page 46 
+ 
+ 
+• Tiếp đến ta Chọn Allow the connection (theo mặc định) rồi ấn Next 
+ 
+• Chọn tất cả và bấm next 
+ 
+
+Nhóm 8 Page 47 
+ 
+ 
+• Thực hiện đặt tên nhóm (CSDLPTNHOM8) -> ấn Finish 
+ 
+• Đã hoàn thành bước thức hiện cài đặt = > Cài đặt thành công 
+ 
+
+Nhóm 8 Page 48 
+ 
+ 
+ 
+6. Thêm New Rule sqlserver 
+Mục đích: Để mở quyền truy cập vào SQL Server khi sử dụng cổng động 
+(dynamic ports) 
+• Trong mục Rule Type, chọn Program -> ấn Next 
+ 
+• Chọn mục This program path và ấn Browse để chọn file thích hợp 
+
+Nhóm 8 Page 49 
+ 
+ 
+ 
+C:\Program Files\Microsoft SQL 
+Server\MSSQL15.SERVER01\MSSQL\Binn\sqlservr.exe 
+ 
+• Tiếp tục ấn Next 
+
+Nhóm 8 Page 50 
+ 
+ 
+ 
+• Đặt tên cho Rule mới là sqlserver 
+ 
+ 
+
+Nhóm 8 Page 51 
+ 
+ 
+ 
+• Thêm rule thành công 
+ 
+7. Thêm New Rule port Udp_1434: 
+Mục đích: Để mở một cổng 1434 trong tường lửa Windows để truy cập UDP 
+• Tương tự Chọn mục Protocol and Ports -> chọn UDP và local ports : 1434 -> 
+ấn Next 
+ 
+
+Nhóm 8 Page 52 
+ 
+ 
+ 
+ 
+• Đặt tên udp1434 -> Finish 
+ 
+
+Nhóm 8 Page 53 
+ 
+ 
+ 
+• Hoàn thành tạo mới các Rule 
+ 
+ 
+III. Chuẩn bị folder để chứa các dữ liệu trao đổi trong quá 
+trình update dữ liệu từ các phân mảnh về cơ sở dữ liệu 
+gốc, và từ cơ sở dữ liệu gốc đến các phân mảnh. 
+• Tạo 1 folder C:\REPLDATA để chứa các dữ liệu trao đổi trong quá trình 
+update dữ liệu từ các phân mảnh về cơ sở dữ liệu gốc, và từ cơ sở dữ liệu gốc đến các phân 
+mảnh. 
+ 
+
+Nhóm 8 Page 54 
+ 
+ 
+ 
+• Click chuột phải vào folder REPLDATA > Properties 
+ 
+• Chọn tab Sharing > Share. 
+
+Nhóm 8 Page 55 
+ 
+ 
+ 
+• Chọn Everyone > click Add 
+ 
+ 
+ 
+ 
+ 
+
+Nhóm 8 Page 56 
+ 
+ 
+ 
+ 
+• Chọn quyền Read/Write như trong hình. 
+ 
+ 
+• Click nút lệnh Share. 
+ 
+
+Nhóm 8 Page 57 
+ 
+ 
+ 
+\\Laptop-ejdobpr\repldata : Laptop-ejdobpr là tên của máy 
+• Nhấn Done -> kết quả cuối cùng của khi hoàn thành được hết tất cả các bước phần 
+cài đặt 
+ 
+IV. Kết nối máy trạm và các chi nhánh bằng cách sử dụng phần mềm cài 
+đặt VPN Radmin VPN 
+ 
+1. Tải phần mềm Radmin VPN 
+Giới thiệu: phần mềm Radmin VPN là phần mềm dùng để tạo mạng riêng ảo 
+(VPN). Cho phép thiết lập kết nối bảo mật giữa các máy tính qua internet như thể 
+các máy tính này kết nối với nhau trên mạng LAN. 
+• Cài đặt phần mềm Radmin VPN, theo link dưới: https://www.radmin-vpn.com/ 
+ 
+ 
+• Chọn folder để lưu Radmin > save để lưu file .exe tải về 
+• Mở file .exe vừa tải về 
+
+Nhóm 8 Page 58 
+ 
+ 
+ 
+• Thực hiện cài đặt Install Radmin_VPN 
+ 
+ 
+ 
+
+Nhóm 8 Page 59 
+ 
+ 
+Cài đặt thành công. 
+• Tạo Network cho máy chủ. 
+• Điền các thông tin như tên network và mật khẩu. Nhấn vào Create Network 
+Ví Dụ: 
++network name: CSDLPTNHOM8 
++password:12345678 
+Các máy trạm sẽ kết nối với nhau và kết nối với máy chủ bằng VPN này. Sau khi 
+đã kết nối ta có giao diện như sau: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+• Kiểm tra kết nối bằng cách chuột phải vào thành viên và click ping. 
+
+Nhóm 8 Page 60 
+ 
+ 
+ 
+ 
+• Và kết quả ra như hình sau nghĩa là các máy đã kết nối với nhau thành công. 
+ 
+
+Nhóm 8 Page 61 
+ 
+ 
+ 
+2. Bật TCP IP và thêm IP các máy trạm. 
+• Mở Sql Server Configuration Manager để cấu hình IP cho từng máy. 
++ TCP/IP : Enable 
++ Named Pipes: Disabled 
+ 
+ 
+• Mở TCP/IP > IP Addresses 
+
+Nhóm 8 Page 62 
+ 
+ 
+ 
+ 
+• Cài đặt các IP như sau: 
++ Active: Yes 
+
+Nhóm 8 Page 63 
+ 
+ 
++ Enable: Yes 
++ Tất cả các TCP Port: 1433 
+IP1: 26.174.147.185 -> là IP máy chủ 
+• Các IP còn lại đều là máy trạm: 
++ IP2: 26.97.114.15 
++ IP3: 26.49.169.120 
++ IP4: 26.43.240.189 
+ 
+• Restart lại server 
+ 
+3. Tạo tài khoản sa (nếu chưa có) 
+• Chạy SQL Server Management Studio và login bằng Windows Authentication 
+như thông thường. 
+
+Nhóm 8 Page 64 
+ 
+ 
+ 
+• Tìm đến Security > Logins > sa 
+
+Nhóm 8 Page 65 
+ 
+ 
+ 
+• Click chuột phải chọn Properties 
+
+Nhóm 8 Page 66 
+ 
+ 
+ 
+• Vào General để đổi mật khẩu -> Bỏ check Enforce password policy. 
+
+Nhóm 8 Page 67 
+ 
+ 
+ 
+ 
+• Sang chọn mục Status -> các mục như dưới hình -> ấn Ok 
+ 
+
+Nhóm 8 Page 68 
+ 
+ 
+V. Tạo database DKTC 
+ 
+C:\ProgramFiles\Microsoft\SQLServer\MSSQL15.CSDLPTNHOM8\MSSQL\DATA 
+ 
+ 
+ 
+• Tạo các bảng 
+
+Nhóm 8 Page 69 
+ 
+ 
+ 
+ 
+ 
+
+Nhóm 8 Page 70 
+ 
+ 
+• Thêm dữ liệu cho các bảng 
+ 
+ 
+
+Nhóm 8 Page 71 
+ 
+ 
+Bảng Headquarter: 
+ 
+ 
+Bảng Department: 
+ 
+Bảng subject: 
+
+Nhóm 8 Page 72 
+ 
+ 
+ 
+Bảng teacher: 
+ 
+
+Nhóm 8 Page 73 
+ 
+ 
+Bảng class: 
+ 
+Bảng student: 
+ 
+Bảng registration: 
+
+Nhóm 8 Page 74 
+ 
+ 
+ 
+ 
+VI. Configure distribution 
+- Distributor: Là một server mà chứa CSDL phân tán (distribution database) và 
+lưu trữ metadata,history data và transaction. SQL Server sử dụng CSDL phân 
+tán để lưu và chuyển(store_and_forward) dữ liệu nhân bản từ Publisher đến các 
+Subscriber. Có 2 loại Distributor : Local Distributor và remote Distributor. 
+ 
+1. Đăng nhập và bật SQL server agent 
+• Mở SQL Server và thực hiện việc đăng nhập 
+ 
+
+Nhóm 8 Page 75 
+ 
+ 
+ 
+• Sau khi đăng nhập, chọn mục SQL Server Agent-> Click chuột phải ->Chọn 
+start 
+ 
+• Tiếp tục ấn Yes để thực hiện bật Server Agent 
+ 
+
+Nhóm 8 Page 76 
+ 
+ 
+2. Configure distribution 
+• Sau khi chạy Agent,tiếp theo chọn mục Replication ->Click chuột phải chọn 
+Configure Distribution 
+ 
+• Tiếp tục thực hiện các thao tác Next đến Snapshot Folder 
+ 
+
+Nhóm 8 Page 77 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Nhóm 8 Page 78 
+ 
+ 
+• Điền đường dẫn của folder \\Laptop-ejdobpr\repldata tạo trước đó -> ấn Next 
+ 
+ 
+• Tiếp tục ấn next 
+ 
+ 
+ 
+
+Nhóm 8 Page 79 
+ 
+ 
+ 
+• Chọn 2 mục như dưới -> ấn Next 
+ 
+• Chọn các mục tương ứng sau đây (không bắt buộc y hệt) -> ấn Next 
+
+Nhóm 8 Page 80 
+ 
+ 
+ 
+• Cuối cùng ấn Finish để hoàn thành Configure 
+ 
+• Config thành công 
+ 
+
+Nhóm 8 Page 81 
+ 
+ 
+ 
+VII. Tạo publication database 
+- Replication – Nhân bản dữ liệu: Replication là công nghệ sao chép, phân phối dữ 
+liệu và là một trong những giải pháp ‘khôi phục dữ liệu sau thảm họa’ có sẵn trong 
+SSMS rất hữu ích để duy trì bản sao thứ hai hoặc bản sao dự phòng của các đối 
+tượng (Table, View, Stored Procedure) và CSDL. Replication trong Microsoft 
+SQL Server có 4 loại sau: 
++Snapshot Replication  
++Transactional Replication  
++Peer-to-Peer Replication 
++Merge Replication 
+1. Tạo Transactional Replication 
+- Nhân bản giao dịch một chiều là một kỹ thuật được sử dụng để sao chép tự 
+động liên tục hoặc định kỳ các dữ liệu giao dịch (Transaction Data) một chiều từ 
+Publisher đến Subscriber. 
+• Trong mục Replication tìm tới Local Publications . Chuột phải vào Local 
+Publication -> chọn New Publication... 
+
+Nhóm 8 Page 82 
+ 
+ 
+ 
+• Cửa sổ New Publication Wizard hiện lên. Chọn Database chứa các bảng 
+muốn nhân bản. Click next 
+
+Nhóm 8 Page 83 
+ 
+ 
+ 
+• Chọn Transactional publication để cho phép nhân bản -> Chọn Next 
+ 
+• Mở rộng mục table để xem các bảng có trong database. Tích vào bảng muốn 
+nhân bản, ở đây là bảng subject. Tích vào subject -> click next 
+
+Nhóm 8 Page 84 
+ 
+ 
+ 
+• Click next 
+ 
+• Tích chọn “Create a snapshot immediately and keep the snapshot availble to 
+initialize subscriptions”. Click next. 
+
+Nhóm 8 Page 85 
+ 
+ 
+ 
+• Chọn Security Settings.. 
+ 
+• Tích chọn “Run under the SQL Server Agent service account” và “Using the 
+following SQL Server login:”. Sau đó nhập tài khoản mật khẩu sa (mà nhóm 
+
+Nhóm 8 Page 86 
+ 
+ 
+đã thống nhất từ trước): Login: sa Password: 12345678 
+ 
+• Chọn next 
+ 
+• Tích chọn “Create the publication”. Click Next 
+
+Nhóm 8 Page 87 
+ 
+ 
+ 
+• Đặt tên cho nhân bản muốn tạo ra trong ô Publication Name, ở đây là subject. 
+Click “Finish” 
+ 
+• Thông báo tạo nhân bản thành công 
+
+Nhóm 8 Page 88 
+ 
+ 
+ 
+• Refresh lại Local Publication để check lại xem đã có subject chưa. Ở đây 
+chúng ta đã tạo nhân bản subject thành công. 
+ 
+2. Tạo merge replication 
+- Merge replication cho phép nhiều server làm việc độc lập (online hay 
+ofline) sau đó hợp nhất dữ liệu đã thay đổi lại dựa vào độ ưu tiên, thời điểm 
+
+Nhóm 8 Page 89 
+ 
+ 
+chỉnh sửa hoặc do người dùng tự quy định. Subscriber sẽ đồng bộ với 
+publisher khi được kết nối vào mạng và sẽ chuyển giao tất cả các row đã 
+thực hiện thay đổi giữa publisher và subscriber kể từ lần đồng bộ cuối cùng. 
+- Merge replication thường được dùng trong các trường hợp sau: 
++Nhiều subscriber cập nhật cùng một dữ liệu nhiều lần và muốn phân 
+phối những thay đổi đó tới publisher và các subscriber khác 
++Subscriber có nhu cầu nhận dữ liệu, thay đổi dữ liệu offline, sau đó 
+đồng bộ hóa những thay đổi tới publisher và các subscriber khác 
++Mỗi subscriber yêu cầu một phân vùng dữ liệu khác nhau 
+• Click chuột phải vào Local Publication. Chọn New Publication 
+ 
+• Chọn next 
+
+Nhóm 8 Page 90 
+ 
+ 
+ 
+ 
+• Chọn database muốn phân mảnh. Click Next
+ 
+• Chọn Merge publication để thực hiện phân mảnh -> Click Next 
+
+Nhóm 8 Page 91 
+ 
+ 
+ 
+• Tích “SQL Server 2008 or later”. Click Next
+ 
+• Dựa theo quan hệ, lựa chọn các bảng muốn phân mảnh. Ở đây là class, department, headquater, 
+registration, student, teacher. Subject do là bảng chung ở tất cả các chi nhánh cũng như đã nhân 
+bản nên ta sẽ không chọn 
+
+Nhóm 8 Page 92 
+ 
+ 
+ 
+• Click Next 
+ 
+• Click Add. Chọn Add Filter. 
+
+Nhóm 8 Page 93 
+ 
+ 
+ 
+• Tạo phân mảnh ngang nguyên thủy Ta sẽ phân mảnh từ bảng headquarter đổ xuống. Ở Select the 
+table to filter lựa chọn headquarter -> Nháy đúp vào ID -> từ “ WHERE [ID] “ ta nhập thêm 
+“=’TSDN’” -> Click OK 
+ 
+• Sau headquarter ta sẽ phân mảnh các bảng liên quan. Chọn “Add join to Extend...” 
+
+Nhóm 8 Page 94 
+ 
+ 
+ 
+• Ở Joined table ta sẽ chọn department. Click OK 
+ 
+• Department đã được thêm vào 
+
+Nhóm 8 Page 95 
+ 
+ 
+ 
+• Tiếp tục add join to extend tương tự như sơ đồ. Ta có: 
+ 
+• Tích “Create a snapshot immediately” và “Schedule the Snapshot...” (không 
+bắt buộc ) -> Click Next 
+
+Nhóm 8 Page 96 
+ 
+ 
+ 
+• Chọn Security Settings... 
+ 
+• Tích chọn “Run under the SQL Server Agent service account” và “Using the 
+following SQL Server login:”. Sau đó nhập tài khoản mật khẩu sa (mà nhóm 
+đã thống nhất từ trước): Login: sa Password: 12345678 
+
+Nhóm 8 Page 97 
+ 
+ 
+ 
+• Chọn Next 
+ 
+• Tích chọn “Create the publication” và “Generate a script ...” -> Click Next 
+
+Nhóm 8 Page 98 
+ 
+ 
+ 
+• Tích chọn “Overwrite the existing file” và “International text” -> Click Next 
+ 
+• Đặt tên phân mảnh ‘TSDN’ tại ô Publication name -> Click Finish 
+
+Nhóm 8 Page 99 
+ 
+ 
+ 
+• Thông báo phân mảnh thành công 
+ 
+• Refresh lại Local Publications để check xem đã có phân mảnh vừa tạo chưa. 
+
+Nhóm 8 Page 100 
+ 
+ 
+ 
+• Làm tương tự được phân mảnh các trụ sở khác. 
+ 
+ 
+
+Nhóm 8 Page 101 
+ 
+ 
+• View snapshot cho các publication 
+ 
+ 
+ 
+VIII. Tạo subscriptions 
+ 
+ 
+ 
+1. Cần có thông tin các máy trạm để tạo sub 
+ 
+TÊN SERVER ĐỊA ĐIỂM 
+KHÔI LAPTOP-EJDOCBPR\CSDLPTNHOM8 MÁY CHỦ 
+HOÀNG HOANG\CSDLPTNHOM8  DKTC_TSDN 
+DUY MESSINGO\CSDLPTNHOM8 DKTC_TSHP 
+HUY HUY\CSDLPTNHOM8 DKTC_TSND 
+ 
+2. Tạo subscriptions 
+ 
+• Chuột phải vào mảnh và chọn New Subscriptions -> bảng New 
+Subscription Wizard hiện ra chọn next. 
+
+Nhóm 8 Page 102 
+ 
+ 
+ 
+• Chọn Next 
+ 
+ 
+• Chọn database và publication 
+
+Nhóm 8 Page 103 
+ 
+ 
+ 
+• Tại bảng Merge Agent Location chọn “Run all agents the Distributor,...” 
+ 
+• Chọn “Next” “Finish” 
+
+Nhóm 8 Page 104 
+ 
+ 
+• đăng nhập tài khoản để kết nối Server 
+ 
+
+Nhóm 8 Page 105 
+ 
+ 
+ 
+• tại subscribers cài đặt Subscription Database chọn “New database” tương ứng 
+
+Nhóm 8 Page 106 
+ 
+ 
+ 
+ 
+• Trong Merge Agent Security tích chọn các nút như hình và đăng nhập tài 
+khoản vào connect to the subscriber -> click “Ok” 
+
+Nhóm 8 Page 107 
+ 
+ 
+ 
+
+Nhóm 8 Page 108 
+ 
+ 
+ 
+• “Next” -> set “Agent Schedule” là Run continuously 
+ 
+• Chọn “Next” và set up tiếp như ảnh bên dưới. 
+
+Nhóm 8 Page 109 
+ 
+ 
+ 
+• tiếp tục chọn “Next” 
+ 
+• tiếp tục chọn “Next” và tích chọn Create the subsripstion 
+
+Nhóm 8 Page 110 
+ 
+ 
+ 
+• chọn “Next” và “Finish” 
+ 
+• Note đã có database DKTC: 
+
+Nhóm 8 Page 111 
+ 
+ 
+ 
+• Lúc này database bên máy trạm đã nhận được thông tin bảng và dữ liệu bảng. 
+Nhưng ở đây bị thiếu bảng subject nên ta thêm bảng nhân bản vào nữa: 
+ 
+
+Nhóm 8 Page 112 
+ 
+ 
+• chọn “New Subscriptions” 
+• chọn “Subject” 
+ 
+• Chọn “Run all ...” như hình bên dưới 
+ 
+• Chọn “Next” click vào “Add Subcriber” và chọn “Add SQL Server Subcriber” 
+
+Nhóm 8 Page 113 
+ 
+ 
+ 
+• click “Next” và click set up như hình bên dưới 
+ 
+
+Nhóm 8 Page 114 
+ 
+ 
+• Đăng nhập tài khoản và click “Ok” 
+ 
+• Note phải có continuous ĐỂ ĐỒNG BỘ TỨC THỜI 
+ 
+• Bảng mới lúc này : 
+
+Nhóm 8 Page 115 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Nhóm 8 Page 116 
+ 
+ 
+ 
+ 
+ 
+• Bảng mới: 
+
+Nhóm 8 Page 117 
+ 
+ 
+ 
+• Làm tương tự các trụ sở khác Với cách làm tương tự như vậy ta đã hoàn toàn 
+phân tán được dữ liệu đến các server, mỗi server đều đã nhận được database 
+tương ứng 
+ 
+ 
+
+Nhóm 8 Page 118 
+ 
+ 
+IX. Đồng bộ hóa dữ liệu từ máy trạm sang máy chủ 
+Ví dụ đồng bộ dữ liệu bảng Student lên máy chủ khi các máy trạm thêm 1 
+sinh viên mới. MỤC TIÊU : ở bảng Student các máy trạm thực hiện thêm 1 
+student mới và ở máy chủ cập nhập thêm các student tại các máy trạm đã 
+thêm 
+ 
+• BAN ĐẦU: Chưa có dữ liệu được cập nhật tại các máy trạm lên máy chủ 
+ 
+ 
+• Cập nhật dữ liệu tại trụ sở Đà Nẵng 
+ 
+• Cập nhật dữ liệu tại trụ sở Hải Phòng 
+ 
+• Cập nhật dữ liệu tại trụ sở Nam Định 
+
+Nhóm 8 Page 119 
+ 
+ 
+ 
+• KẾT QUẢ TẠI MÁY CHỦ 
+ 
+X. Tạo Link server 
+Mục tiêu: Thực hiện kết nối 2 máy tính với nhau để truyền dữ liệu qua lại giữa các 
+máy tính với nhau không thông qua máy chủ. Ví dụ: Máy 2 tạo tài khoản login là 
+HTKN để máy 1 có thể chọc vào database của máy 2.  
+• Tạo new Login trong phần kết nối của cơ sở dữ liệu của dung để tạo một kết 
+nối riêng 
+ 
+• Đặt tên kết nối là HTKN 
+• Chọn SQL Server đặt password là 12345678, chọn lại confirm password là 
+12345678 
+• Bỏ chọn Enforce password policy 
+
+Nhóm 8 Page 120 
+ 
+ 
+ 
+ 
+• Chọn User Mapping 
+• Chọn cơ sở dữ liệu muốn chia sẻ (trong trường hợp này chọn DKTC). 
+• Tiếp theo chọnpublic và db_ower để cập nhật dữ liệu sang máy HUY với tất cả 
+dữ liệu có khả năng thao tác thêm, bớt, sửa, xóa, tạo mới. 
+ 
+ 
+• Chọn new Linked Server ở Linked Servers 
+
+Nhóm 8 Page 121 
+ 
+ 
+ 
+ 
+• Thực hiện cài đặt Linked Server đó. Nhập Product name và Provider string là 
+nơi mà máy 1 muốn chọc dữ liệu đến (máy 2) 
+ 
+ 
+• Phần Security 
+• Chọn Be made using this security context 
+• Chọn Remote login: HTKN 
+• Chọn password: 12345678 (phần mật khẩu đã tạo từ trước). 
+
+Nhóm 8 Page 122 
+ 
+ 
+ 
+ 
+• Phần Server Options  
+• Chọn tất cả các phần ở trên là True và nhấn OK 
+ 
+ 
+
+Nhóm 8 Page 123 
+ 
+ 
+ 
+ 
+• Query : 
+ 
+ 
+• Làm tương tự để tạo Link_Server khác dựa vào một số thông tin đã có sẵn. 
+ 
+PHẦN 5: TRIGGER VÀ STORED PROCEDURE 
+1. Trigger 
+
+Nhóm 8 Page 124 
+ 
+ 
+• Viết trigger kiểm tra insert, update bảng subject trên máy chủ 
+ 
+ Chèn một subject sai định dạng: 
+ 
+ 
+• Viết trigger kiếm tra update bảng headquarter trên máy trạm (VD:TSDN) 
+
+Nhóm 8 Page 125 
+ 
+ 
+ 
+Một trụ sở chỉ được có 1 ID trong bảng headquarter: 
+• 
+Update sai ID headquarter: 
+
+Nhóm 8 Page 126 
+ 
+ 
+ 
+ 
+• Trigger kiểm tra insert, update bảng department trên chi nhánh 
+ 
+Khi insert sai định dạng mã department: 
+
+Nhóm 8 Page 127 
+ 
+ 
+ 
+  Khi insert quá 4 khoa: 
+ 
+• Các trigger sau cũng có logic tương tự như thế 
+• Trigger insert, update vào bảng teacher trên máy trạm: 
+ 
+
+Nhóm 8 Page 128 
+ 
+ 
+ 
+• Trigger insert, update vào bảng student trên máy trạm: 
+ 
+• Trigger insert, update vào bảng class trên máy trạm: 
+
+Nhóm 8 Page 129 
+ 
+ 
+ 
+• Trigger insert, update vào bảng registration trên máy trạm: 
+ 
+2. Stored procedure thống kê cho server tổng 
+• Tổng số sinh viên của từng trụ sở 
+
+Nhóm 8 Page 130 
+ 
+ 
+ 
+• Tổng số sinh viên của từng khoa 
+ 
+• Tổng số giáo viên của từng khoa  
+ 
+ 
+
+Nhóm 8 Page 131 
+ 
+ 
+• Tổng số lượt đăng kí của một môn học người dùng chọn (VD:SUB005) 
+ 
+ 
+• Tổng số lượt đăng kí của một lớp trong thời gian người dụng chọn 
+(VD:2024-05-10) 
+ 
+ 
+ 
+• Liệt kê các lượt đăng kí của một học sinh tự chọn (VD:DNSPT0024) 
+ 
+ 
+ 
+• Liệt kê các lớp mà không tồn tại trong bảng đăng kí  
+
+Nhóm 8 Page 132 
+ 
+ 
+ 
