@@ -1,5 +1,5 @@
 import { ErrorHandler, TryCatch } from '../utils/error.js'
-import SavedDocument from '../models/savedDocument.js'
+import SavedDocument from '../models/SavedDocument.js'
 
 const saveDocument = TryCatch(async (req, res, next) => {
   const { userId, documentId } = req.body
