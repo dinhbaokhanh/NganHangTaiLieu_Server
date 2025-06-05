@@ -198,6 +198,37 @@ const deleteUserById = TryCatch(async (req, res, next) => {
   })
 })
 
+const changePassword = TryCatch(async (req, res, next) => {
+  const userId = req.user._id
+  const { oldPassword, newPassword, confirmPassword } = req.body
+
+  if (!oldPassword || !newPassword || !confirmPassword) {
+    return next(new ErrorHandler('Vui lòng nhập đầy đủ thông tin', 400))
+  }
+
+  if (newPassword !== confirmPassword) {
+    return next(new ErrorHandler('Mật khẩu mới và xác nhận không khớp', 400))
+  }
+
+  const user = await User.findById(userId).select('+password')
+  if (!user) {
+    return next(new ErrorHandler('Không tìm thấy người dùng', 404))
+  }
+
+  const isMatch = await bcrypt.compare(oldPassword, user.password)
+  if (!isMatch) {
+    return next(new ErrorHandler('Mật khẩu cũ không đúng', 400))
+  }
+
+  user.password = await bcrypt.hash(newPassword, 10)
+  await user.save()
+
+  res.status(200).json({
+    success: true,
+    message: 'Đổi mật khẩu thành công. Vui lòng đăng nhập lại.',
+  })
+})
+
 export {
   registerUser,
   loginUser,
@@ -207,4 +238,5 @@ export {
   getUserById,
   deleteUserById,
   updateUserStatus,
+  changePassword,
 }

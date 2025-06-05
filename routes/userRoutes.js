@@ -8,6 +8,7 @@ import {
   deleteUserById,
   addUser,
   updateUserStatus,
+  changePassword,
 } from '../controllers/user/userController.js'
 import {
   forgotPassword,
@@ -56,5 +57,6 @@ router.post(
   singleAvatar, // Middleware xử lý upload file avatar
   addUser // Controller xử lý logic thêm user
 )
+router.put('/change-password', isAuthenticated, changePassword)
 
 export default router
