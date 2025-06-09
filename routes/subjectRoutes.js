@@ -11,8 +11,8 @@ import {
 const router = express.Router()
 
 router.post('/create', isAuthenticated, adminAuth, createSubject)
-router.get('/', isAuthenticated, isAuthenticated, getAllSubjects)
-router.get('/:id', isAuthenticated, isAuthenticated, getSubjectById)
+router.get('/', getAllSubjects)
+router.get('/:id', getSubjectById)
 router.put('/:id', isAuthenticated, adminAuth, updateSubjectById)
 router.delete('/:id', isAuthenticated, adminAuth, deleteSubjectById)
 
