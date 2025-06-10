@@ -52,6 +52,10 @@ const loginUser = TryCatch(async (req, res, next) => {
     return next(new ErrorHandler('Invalid username or password', 401))
   }
 
+  if (user.status === 'Banned') {
+    return next(new ErrorHandler('Tài khoản của bạn đã bị khóa', 403))
+  }
+
   const isMatch = await bcrypt.compare(password, user.password)
   if (!isMatch) {
     return next(new ErrorHandler('Sai Username hoặc Password', 401))
