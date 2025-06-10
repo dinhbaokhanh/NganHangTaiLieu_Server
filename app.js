@@ -13,6 +13,7 @@ import subjectRoutes from './routes/subjectRoutes.js'
 import quizRoutes from './routes/quiz/quizRoutes.js'
 import summaryRoutes from './routes/document/summaryRoutes.js'
 import chatbotRoutes from './routes/chatbotRoutes.js'
+import feedbackRoutes from './routes/document/feedbackRoutes.js'
 import { errorMiddleware } from './middleware/error.js'
 
 dotenv.config()
@@ -48,6 +49,7 @@ app.use('/api/reviews', reviewRoutes)
 app.use('/api/subject', subjectRoutes)
 app.use('/api/quiz', quizRoutes)
 app.use('/api/summary', summaryRoutes)
+app.use('/api/feedback', feedbackRoutes)
 app.use('/api/chatbot', chatbotRoutes)
 
 app.use(errorMiddleware)
