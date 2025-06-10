@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 
-// Reply schema without replies field initially
 const replySchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   reply: { type: String, required: true },
@@ -15,7 +14,6 @@ const replySchema = new mongoose.Schema({
 
 replySchema.add({ replies: [replySchema] })
 
-// Main review schema
 const reviewSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   documentId: {
