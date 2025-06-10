@@ -29,7 +29,7 @@ export const getSubjectById = TryCatch(async (req, res, next) => {
 
   const subject = await Subject.findById(id)
 
-  if (!subject) return next(new ErrorHandler('Subject not found', 404))
+  if (!subject) return next(new ErrorHandler('Không tìm thấy môn học', 404))
 
   res.status(200).json({
     success: true,
@@ -43,7 +43,7 @@ export const updateSubjectById = TryCatch(async (req, res, next) => {
 
   let subject = await Subject.findById(id)
 
-  if (!subject) return next(new ErrorHandler('Subject not found', 404))
+  if (!subject) return next(new ErrorHandler('Không tìm thấy môn học', 404))
 
   subject = await Subject.findByIdAndUpdate(id, req.body, {
     new: true,
@@ -62,12 +62,12 @@ export const deleteSubjectById = TryCatch(async (req, res, next) => {
 
   const subject = await Subject.findById(id)
 
-  if (!subject) return next(new ErrorHandler('Subject not found', 404))
+  if (!subject) return next(new ErrorHandler('Không tìm thấy môn học', 404))
 
   await subject.deleteOne()
 
   res.status(200).json({
     success: true,
-    message: `Subject ${subject.name} has been deleted.`,
+    message: `Môn học ${subject.name} đã được xóa.`,
   })
 })

@@ -86,7 +86,7 @@ const verifyResetToken = TryCatch(async (req, res, next) => {
       email: decoded.email,
     })
   } catch (error) {
-    return next(new ErrorHandler('Invalid or expired reset link', 400))
+    return next(new ErrorHandler('Liên kết đặt lại không hợp lệ hoặc đã hết hạn', 400))
   }
 })
 
@@ -104,7 +104,7 @@ const resetPassword = TryCatch(async (req, res, next) => {
 
   const user = await User.findById(id)
   if (!user) {
-    return next(new ErrorHandler('Invalid reset link', 400))
+    return next(new ErrorHandler('Liên kết đặt lại không hợp lệ', 400))
   }
 
   const secret = process.env.JWT_SECRET + user.password
@@ -120,7 +120,7 @@ const resetPassword = TryCatch(async (req, res, next) => {
       success: true,
     })
   } catch (error) {
-    return next(new ErrorHandler('Invalid or expired reset link', 400))
+    return next(new ErrorHandler('Liên kết đặt lại không hợp lệ hoặc đã hết hạn', 400))
   }
 })
 

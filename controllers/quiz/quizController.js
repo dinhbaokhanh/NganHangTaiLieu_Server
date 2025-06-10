@@ -16,7 +16,7 @@ export const getQuizById = TryCatch(async (req, res, next) => {
     'subject',
     'name code major'
   )
-  if (!quiz) return next(new ErrorHandler('Quiz not found', 404))
+  if (!quiz) return next(new ErrorHandler('Không tìm thấy quiz', 404))
 
   res.status(200).json({ success: true, quiz })
 })
@@ -42,7 +42,7 @@ export const getQuizzesBySubject = TryCatch(async (req, res, next) => {
 export const createQuiz = TryCatch(async (req, res) => {
   const { title, description, questions, subject } = req.body
   const quiz = await Quiz.create({ title, description, questions, subject })
-  res.status(201).json({ success: true, message: 'Quiz created', quiz })
+  res.status(201).json({ success: true, message: 'Quiz đã được tạo', quiz })
 })
 
 // PUT update quiz (update subject if provided)
@@ -50,17 +50,17 @@ export const updateQuiz = TryCatch(async (req, res, next) => {
   const quiz = await Quiz.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   }).populate('subject', 'name code major')
-  if (!quiz) return next(new ErrorHandler('Quiz not found', 404))
+  if (!quiz) return next(new ErrorHandler('Không tìm thấy quiz', 404))
 
-  res.status(200).json({ success: true, message: 'Quiz updated', quiz })
+  res.status(200).json({ success: true, message: 'Quiz đã được cập nhật', quiz })
 })
 
 // DELETE quiz
 export const deleteQuiz = TryCatch(async (req, res, next) => {
   const deleted = await Quiz.findByIdAndDelete(req.params.id)
-  if (!deleted) return next(new ErrorHandler('Quiz not found', 404))
+  if (!deleted) return next(new ErrorHandler('Không tìm thấy quiz', 404))
 
-  res.status(200).json({ success: true, message: 'Quiz deleted' })
+  res.status(200).json({ success: true, message: 'Quiz đã được xóa' })
 })
 
 export const searchQuizzes = TryCatch(async (req, res) => {
