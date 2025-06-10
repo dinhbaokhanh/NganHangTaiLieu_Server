@@ -49,7 +49,7 @@ const loginUser = TryCatch(async (req, res, next) => {
 
   const user = await User.findOne({ username }).select('+password')
   if (!user) {
-    return next(new ErrorHandler('Invalid username or password', 401))
+    return next(new ErrorHandler('Tên đăng nhập hoặc mật khẩu không hợp lệ', 401))
   }
 
   if (user.status === 'Banned') {
@@ -58,7 +58,7 @@ const loginUser = TryCatch(async (req, res, next) => {
 
   const isMatch = await bcrypt.compare(password, user.password)
   if (!isMatch) {
-    return next(new ErrorHandler('Sai Username hoặc Password', 401))
+    return next(new ErrorHandler('Sai tên đăng nhập hoặc mật khẩu', 401))
   }
 
   sendToken(res, user, 200, `${user.username} đăng nhập thành công`)
@@ -73,7 +73,7 @@ const logout = TryCatch((req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Logged out successfully!',
+    message: 'Đăng xuất thành công!',
   })
 })
 
@@ -82,15 +82,15 @@ const addUser = TryCatch(async (req, res, next) => {
   const file = req.file
 
   // Kiểm tra thông tin bắt buộc
-  if (!file) return next(new ErrorHandler('Please Upload Avatar', 400))
+  if (!file) return next(new ErrorHandler('Vui lòng tải lên Avatar', 400))
   if (!username || !email || !password) {
-    return next(new ErrorHandler('Missing required fields', 400))
+    return next(new ErrorHandler('Thiếu thông tin cần thiết', 400))
   }
 
   // Kiểm tra xem username hoặc email đã tồn tại chưa
   const existingUser = await User.findOne({ $or: [{ username }, { email }] })
   if (existingUser) {
-    return next(new ErrorHandler('Username or Email is already used', 400))
+    return next(new ErrorHandler('Tên đăng nhập hoặc Email đã được sử dụng', 400))
   }
 
   // Mã hóa mật khẩu
@@ -117,7 +117,7 @@ const addUser = TryCatch(async (req, res, next) => {
   // Trả về phản hồi
   res.status(201).json({
     success: true,
-    message: 'User added successfully',
+    message: 'Tạo người dùng thành công',
     user: {
       id: newUser._id,
       username: newUser.username,
@@ -142,7 +142,7 @@ const getUserById = TryCatch(async (req, res, next) => {
 
   const user = await User.findById(id).select('-password')
 
-  if (!user) return next(new ErrorHandler('User not found', 404))
+  if (!user) return next(new ErrorHandler('Không tìm thấy người dùng', 404))
 
   res.status(200).json({
     success: true,
@@ -158,7 +158,7 @@ const updateUserStatus = TryCatch(async (req, res, next) => {
   if (!status || !['Active', 'Banned'].includes(status)) {
     return next(
       new ErrorHandler(
-        'Invalid status value. Must be "Active" or "Banned"',
+        'Status không hợp lệ. Phải là "Active" hoặc "Banned"',
         400
       )
     )
@@ -167,7 +167,7 @@ const updateUserStatus = TryCatch(async (req, res, next) => {
   const user = await User.findById(id)
 
   if (!user) {
-    return next(new ErrorHandler('User not found', 404))
+    return next(new ErrorHandler('Không tìm thấy người dùng', 404))
   }
 
   user.status = status
@@ -175,7 +175,7 @@ const updateUserStatus = TryCatch(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: `User status updated to ${status} successfully`,
+    message: `Cập nhật status người dùng thành công: ${status}`,
     user: {
       _id: user._id,
       username: user.username,
@@ -192,13 +192,13 @@ const deleteUserById = TryCatch(async (req, res, next) => {
 
   const user = await User.findById(id)
 
-  if (!user) return next(new ErrorHandler('User not found', 404))
+  if (!user) return next(new ErrorHandler('Không tìm thấy người dùng', 404))
 
   await user.deleteOne()
 
   res.status(200).json({
     success: true,
-    message: `User ${user.username} has been deleted.`,
+    message: `Người dùng ${user.username} đã được xóa.`,
   })
 })
 

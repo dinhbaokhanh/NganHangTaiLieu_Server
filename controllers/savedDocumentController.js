@@ -5,13 +5,13 @@ const saveDocument = TryCatch(async (req, res, next) => {
   const { userId, documentId } = req.body
 
   const exists = await SavedDocument.findOne({ userId, documentId })
-  if (exists) return next(new ErrorHandler('Already saved', 400))
+  if (exists) return next(new ErrorHandler('Đã lưu tài liệu này', 400))
 
   const saved = await SavedDocument.create({ userId, documentId })
 
   res.status(201).json({
     success: true,
-    message: 'Document saved successfully',
+    message: 'Tài liệu đã được lưu',
     saved: true,
   })
 })
@@ -20,11 +20,11 @@ const unsaveDocument = TryCatch(async (req, res, next) => {
   const { userId, documentId } = req.body
 
   const deleted = await SavedDocument.findOneAndDelete({ userId, documentId })
-  if (!deleted) return next(new ErrorHandler('Saved document not found', 404))
+  if (!deleted) return next(new ErrorHandler('Không tìm thấy tài liệu đã lưu', 404))
 
   res.status(200).json({
     success: true,
-    message: 'Document unsaved successfully',
+    message: 'Tài liệu đã được bỏ lưu',
   })
 })
 

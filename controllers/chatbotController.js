@@ -27,7 +27,7 @@ const chatReply = TryCatch(async (req, res, next) => {
     res.status(200).json({ reply })
   } catch (err) {
     console.error('[OpenRouter Error]', err.response?.data || err.message)
-    return next(new ErrorHandler('Failed to get AI response', 500))
+    return next(new ErrorHandler('Không thể lấy phản hồi từ AI', 500))
   }
 })
 
